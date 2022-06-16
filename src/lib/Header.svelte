@@ -3,6 +3,7 @@
 	<li><a href="/sklep">Sklep</a></li>
 	<li><a href="/o-nas">O nas</a></li>
 	<li><a href="/login">Zaloguj się</a></li>
+	<li><a href="/signup">Załóż konto</a></li>
 </ul>
 
 <style>
@@ -15,7 +16,7 @@
 		justify-content: flex-start;
 		background-color: white;
 	}
-	li:last-child {
+	li:nth-last-child(2) {
 		margin-left: auto;
 	}
 	a {
