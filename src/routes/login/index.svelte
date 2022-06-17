@@ -77,7 +77,7 @@
 			class="discord-login-button"
 			href="https://discord.com/api/oauth2/authorize?client_id=987076912247627826&redirect_uri=https%3A%2F%2Flocalhost%3A3000%2Flogin%3Fprovider%3Ddiscord&response_type=code&scope=identify%20email"
 			><img
-				src="https://discord.com/assets/145dc557845548a36a82337912ca3ac5.svg"
+				src="/discord.svg"
 				alt="Discord logo"
 			/><span>Zaloguj się przez Discorda</span></a
 		>
