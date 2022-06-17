@@ -11,7 +11,8 @@ datasource db {
 }
 
 model User {
-  id           String @id @default(uuid())
+  id           String  @id @default(uuid())
   name         String
-  phone_number String
+  phone_number String? @unique
+  discord_id   String? @unique
 }
