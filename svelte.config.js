@@ -8,7 +8,8 @@ const config = {
 	preprocess: preprocess(),
 
 	kit: {
-		adapter: adapter()
+		adapter: adapter(),
+		floc: process.env.NODE_ENV === "development",
 	}
 };
 
