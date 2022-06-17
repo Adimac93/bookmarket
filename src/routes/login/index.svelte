@@ -16,9 +16,11 @@
 				// and signed request each expire.
 				const uid = response.authResponse.userID;
 				const accessToken = response.authResponse.accessToken;
-				console.log(response)
-				const response_ = await fetch(`https://graph.facebook.com/v14.0/${uid}?metadata=1&access_token=${accessToken}`);
-				console.log(await response_.json())
+				console.log(response);
+				const response_ = await fetch(
+					`https://graph.facebook.com/v14.0/${uid}?metadata=1&access_token=${accessToken}`
+				);
+				console.log(await response_.json());
 			} else if (response.status === 'not_authorized') {
 				// The user hasn't authorized your application.  They
 				// must click the Login button, or you must call FB.login
@@ -40,32 +42,87 @@
 		defer
 		crossorigin="anonymous"
 		src="https://connect.facebook.net/pl_PL/sdk.js#xfbml=1&version=v14.0"
-		nonce="Xu1R86cK"
+		nonce="z0gYK5XQ"
 		on:load={onLoad}></script>
+	<div
+		id="g_id_onload"
+		data-client_id="266186020689-9dt4vgv7nasollcmg96mp66idnes48is.apps.googleusercontent.com"
+		data-login_uri="http://localhost:3000/login/google"
+		data-auto_prompt="false"
+	/>
 </svelte:head>
-<h1>Zaloguj się</h1>
-<div
-	id="g_id_onload"
-	data-client_id="266186020689-9dt4vgv7nasollcmg96mp66idnes48is.apps.googleusercontent.com"
-	data-login_uri="http://localhost:3000/login/google"
-	data-auto_prompt="false"
-/>
-<div
-	class="g_id_signin"
-	data-type="standard"
-	data-size="large"
-	data-theme="outline"
-	data-text="sign_in_with"
-	data-shape="rectangular"
-	data-logo_alignment="left"
-/>
-<div
-	class="fb-login-button"
-	data-width=""
-	data-size="large"
-	data-button-type="continue_with"
-	data-layout="default"
-	data-auto-logout-link="false"
-	data-use-continue-as="false"
-/>
-<a href="https://discord.com/api/oauth2/authorize?client_id=987076912247627826&redirect_uri=https%3A%2F%2Flocalhost%3A3000%2Flogin%3Fprovider%3Ddiscord&response_type=code&scope=identify%20email">Log in with discord</a>
+<div class="wrapper">
+	<h1>Zaloguj się</h1>
+	<div class="login-buttons-wrapper">
+		<div
+			class="g_id_signin"
+			data-type="standard"
+			data-size="large"
+			data-width="300"
+			data-theme="outline"
+			data-text="sign_in_with"
+			data-shape="rectangular"
+			data-logo_alignment="left"
+		/>
+		<div
+			class="fb-login-button"
+			data-width="300"
+			data-size="large"
+			data-button-type="login_with"
+			data-layout="default"
+			data-auto-logout-link="true"
+			data-use-continue-as="false"
+		/>
+		<a
+			class="discord-login-button"
+			href="https://discord.com/api/oauth2/authorize?client_id=987076912247627826&redirect_uri=https%3A%2F%2Flocalhost%3A3000%2Flogin%3Fprovider%3Ddiscord&response_type=code&scope=identify%20email"
+			><img
+				src="https://discord.com/assets/145dc557845548a36a82337912ca3ac5.svg"
+				alt="Discord logo"
+			/><span>Zaloguj się przez Discorda</span></a
+		>
+	</div>
+</div>
+
+<style>
+	.wrapper {
+		width: fit-content;
+		margin: 1em auto;
+		padding: 1em;
+		background-color: white;
+		border-radius: 0.6em;
+		box-shadow: 0px 0px 1em 0px rgba(0, 0, 0, 0.4);
+	}
+	.wrapper > :first-child {
+		margin-top: 0;
+	}
+	.wrapper > :last-child {
+		margin-bottom: 0;
+	}
+	.login-buttons-wrapper {
+		display: flex;
+		flex-flow: column nowrap;
+		gap: 0.5em;
+	}
+	.discord-login-button {
+		display: flex;
+		flex-flow: row nowrap;
+		justify-content: flex-start;
+		align-items: center;
+		text-decoration: none;
+		background-color: #5865f2;
+		color: #fff;
+		border-radius: 4px;
+		height: 40px;
+		width: 300px;
+	}
+	.discord-login-button img {
+		height: 50%;
+		margin-left: 0.7em;
+	}
+	.discord-login-button span {
+		display: block;
+		margin: auto;
+		font-weight: 500;
+	}
+</style>
