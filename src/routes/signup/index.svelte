@@ -1,13 +1,20 @@
-<form>
+<script lang="ts">
+	let name = '';
+	async function sendForm(){
+		const query = new URLSearchParams(window.location.search) ;
+		await fetch(`/signup?id=${query.get('id') || ''}`,{method:"post",body: JSON.stringify({name})})
+		window.location.href='/sklep'
+	}
+</script>
+<form on:submit|preventDefault="{sendForm}">
 	<h1>Załóż konto</h1>
-	<label>Imię i nazwisko<input type="text" required placeholder="Jan Kowalski" pattern="{`\\p{Letter}+`}"><span /></label>
-	<h2>Dane kontaktowe</h2>
+	<label>Imię i nazwisko<input type="text" required placeholder="Jan Kowalski" pattern="{`\\p{Letter}+\\s\\p{Letter}+`}" bind:value={name}><span /></label>
+	<!-- <h2>Dane kontaktowe</h2>
 	<p>Aby coś sprzedać lub kupić musisz podać co najmniej jeden sposób kontaktu. Możesz to zrobić później, nie jest to wymagane do samego założenia konta.</p>
 	<label>Numer telefonu<input type="tel" placeholder="123456789"><span /></label>
-	<label>Konto Discord<input type="text" placeholder="username#1234" pattern="{`.+#\\d{4}`}"><span /></label>
+	<label>Konto Discord<input type="text" placeholder="username#1234" pattern="{`.+#\\d{4}`}"><span /></label> -->
 	<button>Załóż konto</button>
 </form>
-
 <style>
 	form {
 		width: min(100%, 20rem);
