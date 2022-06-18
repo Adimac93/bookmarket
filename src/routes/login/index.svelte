@@ -54,6 +54,18 @@
 <div class="wrapper">
 	<h1>Zaloguj się</h1>
 	<div class="login-buttons-wrapper">
+		<a
+			class="login-button discord"
+			href="https://discord.com/api/oauth2/authorize?client_id=987076912247627826&redirect_uri=https%3A%2F%2Flocalhost%3A3000%2Flogin%3Fprovider%3Ddiscord&response_type=code&scope=identify%20email"
+			><img src="/discord.svg" alt="Discord logo" /><span>Zaloguj się przez Discorda</span></a
+		>
+		<a
+			class="login-button facebook"
+			href="https://www.facebook.com/v14.0/dialog/oauth?client_id={331682405650576}&response_type=code&redirect_uri={encodeURI(
+				`https://localhost:3000/login?provider=facebook`
+			)}&state={'test'}"
+			><img src="/facebook.svg" alt="Facebook logo" /><span>Zaloguj się przez Facebooka</span></a
+		>
 		<div
 			class="g_id_signin"
 			data-type="standard"
@@ -64,23 +76,6 @@
 			data-shape="rectangular"
 			data-logo_alignment="left"
 		/>
-		<div
-			class="fb-login-button"
-			data-width="300"
-			data-size="large"
-			data-button-type="login_with"
-			data-layout="default"
-			data-auto-logout-link="true"
-			data-use-continue-as="false"
-		/>
-		<a
-			class="discord-login-button"
-			href="https://discord.com/api/oauth2/authorize?client_id=987076912247627826&redirect_uri=https%3A%2F%2Flocalhost%3A3000%2Flogin%3Fprovider%3Ddiscord&response_type=code&scope=identify%20email"
-			><img
-				src="/discord.svg"
-				alt="Discord logo"
-			/><span>Zaloguj się przez Discorda</span></a
-		>
 	</div>
 </div>
 
@@ -104,25 +99,31 @@
 		flex-flow: column nowrap;
 		gap: 0.5em;
 	}
-	.discord-login-button {
+	.login-button {
 		display: flex;
 		flex-flow: row nowrap;
 		justify-content: flex-start;
 		align-items: center;
 		text-decoration: none;
-		background-color: #5865f2;
-		color: #fff;
 		border-radius: 4px;
 		height: 40px;
 		width: 300px;
 	}
-	.discord-login-button img {
+	.login-button img {
 		height: 50%;
 		margin-left: 0.7em;
 	}
-	.discord-login-button span {
+	.login-button span {
 		display: block;
 		margin: auto;
 		font-weight: 500;
+	}
+	.discord {
+		background-color: #5865f2;
+		color: #fff;
+	}
+	.facebook {
+		background-color: #3b5998;
+		color: #fff;
 	}
 </style>
