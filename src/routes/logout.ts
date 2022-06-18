@@ -4,9 +4,6 @@ import type { RequestHandler } from '@sveltejs/kit';
 
 export const get: RequestHandler = async ({ request }) => {
 	const cookie = parse(request.headers.get('Cookie') || '');
-	if (!sessions[cookie['session_id']]) {
-		return { status: 503 };
-	}
 	delete sessions[cookie['session_id']];
 
 	return {
