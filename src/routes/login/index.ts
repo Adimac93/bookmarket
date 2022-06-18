@@ -1,73 +1,50 @@
 import type { RequestHandler } from '@sveltejs/kit';
-import { auth } from '$lib/oauth/discord';
 import { Provider, registerSession } from '$lib/oauth/common';
-import { sessions, signups, db } from '$lib/database';
+import { signups, db } from '$lib/database';
+import discord from '$lib/oauth/discord';
+import google from '$lib/oauth/google';
+import facebook from '$lib/oauth/facebook';
 
 export const get: RequestHandler = async ({ url }) => {
 	const provider = url.searchParams.get('provider');
-	if (provider == 'discord') {
-		const code: string = url.searchParams.get('code') || '';
-		if (code) {
-			const discord_id = await auth(code);
-			if (!discord_id) return { status: 403 };
+	const code = url.searchParams.get('code');
 
-			let user = await db.user.findFirst({ where: { discord_id } });
-			if (!user) {
-				console.log("User isn't registered");
-				const signupId = crypto.randomUUID();
-				signups[signupId] = { id: discord_id, provider: Provider.Discord };
-				return {
-					status: 303,
-					headers: {
-						Location: `/signup?id=${signupId}`
-					}
-				};
-			}
-
-			return registerSession(user.id);
-		}
-	} else if (provider == 'facebook') {
-		const code = url.searchParams.get('code');
-
-		if (code) {
-			const token_response = await fetch(
-				`https://graph.facebook.com/v14.0/oauth/access_token?client_id=${331682405650576}&redirect_uri=${encodeURI(
-					`https://localhost:3000/login?provider=facebook`
-				)}&client_secret=${'2b90b7b4894df78d6b3f53e387a03c87'}&code=${code}`
-			).then((r) => r.json());
-
-			const token = token_response.access_token;
-
-			console.log(token);
-
-			const data_response = await fetch(
-				`https://graph.facebook.com/debug_token?input_token=${token}&access_token=331682405650576|2b90b7b4894df78d6b3f53e387a03c87`
-			).then((r) => r.json());
-
-			console.log(data_response);
-
-			const id = data_response.user_id;
-		}
-	} else if (provider == 'google') {
-		const code = url.searchParams.get('code');
-
-		if (code) {
-			const token_response = await fetch(
-				`https://oauth2.googleapis.com/token?code=${code}&client_id=${'266186020689-9dt4vgv7nasollcmg96mp66idnes48is.apps.googleusercontent.com'}&client_secret=${'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'}&redirect_uri=${encodeURI(
-					`https://localhost:3000/login?provider=google`
-				)}&grant_type=authorization_code`,
-				{ method: 'post' }
-			).then((r) => r.json());
-
-			const token = token_response.access_token;
-
-			console.log(token);
-
-			const email = JSON.parse(
-				Buffer.from((token_response.id_token as string).split('.')[1], 'base64').toString()
-			).email;
-		}
+	if (!code) return {
+		status: 403
 	}
 
-	return { status: 200 };
+	if (provider === 'discord') {
+		const discord_id = await discord(code);
+		if (!discord_id) return { status: 500 };
+		return logInOrSignUp((await db.user.findUnique({ where: { discord_id } }))?.id, discord_id, Provider.Discord);
+	} else if (provider === 'google') {
+		const google_email = await google(code);
+		if (!google_email) return { status: 500 };
+		return logInOrSignUp((await db.user.findUnique({ where: { google_id: google_email } }))?.id, google_email, Provider.Google);
+	} else if (provider === 'facebook') {
+		const facebook_id = await facebook(code);
+		if (!facebook_id) return { status: 500 };
+		return logInOrSignUp((await db.user.findUnique({ where: { facebook_id } }))?.id, facebook_id, Provider.Facebook);
+	} else {
+		return {
+			status: 403
+		}
+	}
 };
+
+const logInOrSignUp = (id: string | undefined, provider_id: string, provider: Provider) => {
+	if (id) {
+		registerSession(id)
+		return { status: 200 }
+	};
+
+	const signupId = crypto.randomUUID();
+	signups[signupId] = { id: provider_id, provider };
+
+	return {
+		status: 303,
+		headers: {
+			Location: `/signup?id=${signupId}`
+		}
+	};
+}
