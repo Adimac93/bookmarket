@@ -36,14 +36,6 @@
 
 <svelte:head>
 	<script src="https://accounts.google.com/gsi/client" async defer></script>
-	<div id="fb-root" />
-	<script
-		async
-		defer
-		crossorigin="anonymous"
-		src="https://connect.facebook.net/pl_PL/sdk.js#xfbml=1&version=v14.0"
-		nonce="z0gYK5XQ"
-		on:load={onLoad}></script>
 	<div
 		id="g_id_onload"
 		data-client_id="266186020689-9dt4vgv7nasollcmg96mp66idnes48is.apps.googleusercontent.com"
