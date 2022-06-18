@@ -20,36 +20,23 @@ export const get: RequestHandler = async ({ url }) => {
 				return {
 					status: 303,
 					headers: {
-						Location: '/signup',
-						'Set-Cookie': serialize(
-							'session_id',
-							JSON.stringify({ id: signupId, provider: Provider.Discord }),
-							{
-								path: '/',
-								httpOnly: true,
-								sameSite: 'strict',
-								secure: true
-							}
-						)
+						Location: `/signup?id=${signupId}`
 					}
 				};
 			}
 			const sessionId = crypto.randomUUID();
 			sessions[sessionId] = user.id;
+
 			return {
 				status: 200,
 				headers: {
-					'Set-Cookie': serialize(
-						'session_id',
-						JSON.stringify({ id: sessionId, provider: Provider.Discord }),
-						{
-							path: '/',
-							httpOnly: true,
-							sameSite: 'strict',
-							secure: true,
-							maxAge: 60 * 60 * 24 * 1
-						}
-					)
+					'Set-Cookie': serialize('session_id', sessionId, {
+						path: '/',
+						httpOnly: true,
+						sameSite: 'strict',
+						secure: true,
+						maxAge: 60 * 60 * 24 * 1
+					})
 				},
 				body: {
 					message: 'Successfully signed in'
@@ -60,13 +47,19 @@ export const get: RequestHandler = async ({ url }) => {
 		const code = url.searchParams.get('code');
 
 		if (code) {
-			const token_response = await fetch(`https://graph.facebook.com/v14.0/oauth/access_token?client_id=${331682405650576}&redirect_uri=${encodeURI(`https://localhost:3000/login?provider=facebook`)}&client_secret=${'2b90b7b4894df78d6b3f53e387a03c87'}&code=${code}`).then(r => r.json());
-			
+			const token_response = await fetch(
+				`https://graph.facebook.com/v14.0/oauth/access_token?client_id=${331682405650576}&redirect_uri=${encodeURI(
+					`https://localhost:3000/login?provider=facebook`
+				)}&client_secret=${'2b90b7b4894df78d6b3f53e387a03c87'}&code=${code}`
+			).then((r) => r.json());
+
 			const token = token_response.access_token;
-			
+
 			console.log(token);
 
-			const data_response = await fetch(`https://graph.facebook.com/debug_token?input_token=${token}&access_token=331682405650576|2b90b7b4894df78d6b3f53e387a03c87`).then(r => r.json());
+			const data_response = await fetch(
+				`https://graph.facebook.com/debug_token?input_token=${token}&access_token=331682405650576|2b90b7b4894df78d6b3f53e387a03c87`
+			).then((r) => r.json());
 
 			console.log(data_response);
 
