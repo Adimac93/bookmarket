@@ -15,4 +15,6 @@ model User {
   name         String
   phone_number String? @unique
   discord_id   String? @unique
+  google_id    String? @unique
+  facebook_id  String? @unique
 }
