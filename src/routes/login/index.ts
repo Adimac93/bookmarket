@@ -73,7 +73,17 @@ export const get: RequestHandler = async ({ url }) => {
 			const id = data_response.user_id;
 		}
 	} else if (provider == 'google') {
-		//TODO
+		const code = url.searchParams.get('code');
+
+		if (code) {
+			const token_response = await fetch(`https://oauth2.googleapis.com/token?code=${code}&client_id=${'266186020689-9dt4vgv7nasollcmg96mp66idnes48is.apps.googleusercontent.com'}&client_secret=${'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'}&redirect_uri=${encodeURI(`https://localhost:3000/login?provider=google`)}&grant_type=authorization_code`, { method: 'post' }).then(r => r.json());
+
+			const token = token_response.access_token;
+
+			console.log(token);
+
+			const email = JSON.parse(Buffer.from((token_response.id_token as string).split('.')[1], 'base64').toString()).email;
+		}
 	}
 
 	return { status: 200 };
