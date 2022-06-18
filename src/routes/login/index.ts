@@ -1,7 +1,6 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import { auth } from '$lib/oauth/discord';
-import { Provider } from '$lib/oauth/common';
-import { serialize } from 'cookie';
+import { Provider, registerSession } from '$lib/oauth/common';
 import { sessions, signups, db } from '$lib/database';
 
 export const get: RequestHandler = async ({ url }) => {
@@ -24,24 +23,8 @@ export const get: RequestHandler = async ({ url }) => {
 					}
 				};
 			}
-			const sessionId = crypto.randomUUID();
-			sessions[sessionId] = user.id;
 
-			return {
-				status: 200,
-				headers: {
-					'Set-Cookie': serialize('session_id', sessionId, {
-						path: '/',
-						httpOnly: true,
-						sameSite: 'strict',
-						secure: true,
-						maxAge: 60 * 60 * 24 * 1
-					})
-				},
-				body: {
-					message: 'Successfully signed in'
-				}
-			};
+			return registerSession(user.id);
 		}
 	} else if (provider == 'facebook') {
 		const code = url.searchParams.get('code');
@@ -69,13 +52,20 @@ export const get: RequestHandler = async ({ url }) => {
 		const code = url.searchParams.get('code');
 
 		if (code) {
-			const token_response = await fetch(`https://oauth2.googleapis.com/token?code=${code}&client_id=${'266186020689-9dt4vgv7nasollcmg96mp66idnes48is.apps.googleusercontent.com'}&client_secret=${'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'}&redirect_uri=${encodeURI(`https://localhost:3000/login?provider=google`)}&grant_type=authorization_code`, { method: 'post' }).then(r => r.json());
+			const token_response = await fetch(
+				`https://oauth2.googleapis.com/token?code=${code}&client_id=${'266186020689-9dt4vgv7nasollcmg96mp66idnes48is.apps.googleusercontent.com'}&client_secret=${'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'}&redirect_uri=${encodeURI(
+					`https://localhost:3000/login?provider=google`
+				)}&grant_type=authorization_code`,
+				{ method: 'post' }
+			).then((r) => r.json());
 
 			const token = token_response.access_token;
 
 			console.log(token);
 
-			const email = JSON.parse(Buffer.from((token_response.id_token as string).split('.')[1], 'base64').toString()).email;
+			const email = JSON.parse(
+				Buffer.from((token_response.id_token as string).split('.')[1], 'base64').toString()
+			).email;
 		}
 	}
 
