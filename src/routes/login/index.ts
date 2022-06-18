@@ -10,7 +10,7 @@ export const get: RequestHandler = async ({ url }) => {
 	const code = url.searchParams.get('code');
 
 	if (!code) return {
-		status: 403
+		status: 200
 	}
 
 	if (provider === 'discord') {
@@ -27,7 +27,7 @@ export const get: RequestHandler = async ({ url }) => {
 		return logInOrSignUp((await db.user.findUnique({ where: { facebook_id } }))?.id, facebook_id, Provider.Facebook);
 	} else {
 		return {
-			status: 403
+			status: 200
 		}
 	}
 };
