@@ -11,44 +11,53 @@ datasource db {
 }
 
 model User {
-  id           String               @id @default(uuid())
+  id           String       @id @default(uuid())
   name         String
-  phone_number String?              @unique
-  discord_id   String?              @unique
-  google_id    String?              @unique
-  facebook_id  String?              @unique
+  phone_number String?      @unique
+  discord_id   String?      @unique
+  google_id    String?      @unique
+  facebook_id  String?      @unique
   books        BookCopy[]
-  cart         BooksWithCondition[]
+  cart         BookInCart[]
 }
 
 model Book {
-  id          String               @id @default(uuid())
+  id          String              @id @default(uuid())
   title       String
   author      String
   description String
   image       String
-  books       BooksWithCondition[]
+  books       BookWithCondition[]
 }
 
-model BooksWithCondition {
-  book_copies BookCopy[]
-  book        Book       @relation(fields: [book_id], references: [id])
-  book_id     String
-  condition   Condition
-  User        User?      @relation(fields: [userId], references: [id])
-  userId      String?
+model BookWithCondition {
+  book      Book         @relation(fields: [book_id], references: [id])
+  book_id   String
+  condition Condition
+  copies    BookCopy[]
+  carts     BookInCart[]
 
-  @@unique([book_id, condition])
+  @@id([book_id, condition])
+}
+
+model BookInCart {
+  user                User              @relation(fields: [user_id], references: [id])
+  user_id             String
+  book_with_condition BookWithCondition @relation(fields: [book_id, condition], references: [book_id, condition])
+  book_id             String
+  condition           Condition
+
+  @@unique([book_id, user_id])
 }
 
 model BookCopy {
-  id                      String             @id @default(uuid())
-  owner                   User               @relation(fields: [owner_id], references: [id])
-  owner_id                String
-  status                  String
-  books_with_condition    BooksWithCondition @relation(fields: [books_with_condition_id, condition], references: [book_id, condition])
-  books_with_condition_id String
-  condition               Condition
+  id                  String            @id @default(uuid())
+  owner               User              @relation(fields: [owner_id], references: [id])
+  owner_id            String
+  status              String
+  book_with_condition BookWithCondition @relation(fields: [book_id, condition], references: [book_id, condition])
+  book_id             String
+  condition           Condition
 }
 
 enum Condition {
