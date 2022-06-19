@@ -46,7 +46,6 @@ export const get: RequestHandler = async ({ url }) => {
 };
 
 const logInOrSignUp = (id: string | undefined, provider_id: string, provider: Provider) => {
-	console.log(id);
 	if (id) {
 		return registerSession(id);
 	}
