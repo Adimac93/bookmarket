@@ -1,6 +1,7 @@
 <script lang="ts">
-	import { session } from "$app/stores";
+	import { session } from '$app/stores';
 </script>
+
 <ul>
 	<li><a href="/">Strona główna</a></li>
 	<li><a href="/sklep">Sklep</a></li>
@@ -9,8 +10,8 @@
 		<li><a href="/login">Zaloguj się</a></li>
 		<li><a href="/signup">Załóż konto</a></li>
 	{:else}
-		<li></li>
-		<li><a href="/logout" >Wyloguj się</a></li>
+		<li />
+		<li><a href="/logout">Wyloguj się</a></li>
 	{/if}
 </ul>
 
@@ -33,9 +34,8 @@
 		transition: 0.2s;
 		text-decoration: none;
 		color: black;
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 	}
 	a:hover {
-		color: #00D;
+		color: #00d;
 	}
 </style>
