@@ -27,6 +27,8 @@ model Book {
   author      String
   description String
   image       String
+  grade       Grade
+  subject     Subject
   books       BookWithCondition[]
 }
 
@@ -65,4 +67,27 @@ enum Condition {
   GOOD
   DAMAGED
   BAD
+}
+
+enum Grade {
+  FIRST
+  SECOND
+  THIRD
+  FOURTH
+}
+
+enum Subject {
+  MATH
+  ENGLISH
+  POLISH
+  GERMAN
+  RUSSIAN
+  HISTORY
+  CIVICS
+  CHEMISTRY
+  BIOLOGY
+  GEOGRAPHY
+  PHYSICS
+  COMPUTER_SCIENCE
+  ENTREPRENEURSHIP
 }
