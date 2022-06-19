@@ -1,5 +1,4 @@
 import type { RequestHandler } from '@sveltejs/kit';
-import { auth } from '$lib/oauth/discord';
 import { Provider, registerSession } from '$lib/oauth/common';
 import { sessions, signups, db } from '$lib/database';
 import { parse } from 'cookie';
