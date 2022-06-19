@@ -8,24 +8,26 @@ export const post: RequestHandler = async ({ request, url }) => {
 	if (!form) return { status: 401 };
 	const signupData = signups[url.searchParams.get('id') || ''];
 	if (!signupData) return { status: 401 };
-	if (signupData.provider == Provider.Discord) {
-		let user;
-		try {
-			user = await db.user.create({
-				data: { name: form.name, discord_id: signupData.id }
-			});
-		} catch (error) {
-			return { status: 403 };
-		}
 
-		console.log(`User ${form.name} has been created`);
-
-		return registerSession(user.id);
-	} else if (signupData.provider == Provider.Google) {
-		//TODO
-	} else if (signupData.provider == Provider.Facebook) {
-		//TODO
+	let user = await registerNewUser(form.name, signupData.id, signupData.provider);
+	if (!user) {
+		return { status: 403 };
 	}
 
 	return { status: 200 };
 };
+async function registerNewUser(name: string, id: string, provider: Provider) {
+	if (provider == Provider.Discord) {
+		return await db.user.create({
+			data: { name, discord_id: id }
+		});
+	} else if (provider == Provider.Google) {
+		return await db.user.create({
+			data: { name, google_id: id }
+		});
+	} else if (provider == Provider.Facebook) {
+		return await db.user.create({
+			data: { name, facebook_id: id }
+		});
+	}
+}
