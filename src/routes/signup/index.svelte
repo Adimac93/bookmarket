@@ -23,8 +23,7 @@
 	>
 	<!-- <h2>Dane kontaktowe</h2>
 	<p>Aby coś sprzedać lub kupić musisz podać co najmniej jeden sposób kontaktu. Możesz to zrobić później, nie jest to wymagane do samego założenia konta.</p>
-	<label>Numer telefonu<input type="tel" placeholder="123456789"><span /></label>
-	<label>Konto Discord<input type="text" placeholder="username#1234" pattern="{`.+#\\d{4}`}"><span /></label> -->
+	<label>Numer telefonu<input type="tel" placeholder="123456789"><span /></label> -->
 	<button>Załóż konto</button>
 </form>
 
