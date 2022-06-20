@@ -33,26 +33,21 @@
 		vertical-align: top;
 		transition: height 1s;
 	}
-
 	.cover {
 		border: 2px solid gray;
 		height: 80%;
 		overflow: hidden;
 	}
-
 	.cover img {
 		width: 100%;
 	}
-
 	.book p {
 		margin-top: 12px;
 		font-size: 20px;
 	}
-
 	.book .author {
 		font-size: 15px;
 	}
-
 	h1 {
 		color: gray;
 		text-align: center;
