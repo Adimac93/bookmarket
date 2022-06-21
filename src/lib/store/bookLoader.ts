@@ -1,25 +1,37 @@
-import type { Grade, Subject } from '@prisma/client';
+import { Condition, type Grade, type Subject } from '@prisma/client';
 import * as cheerio from 'cheerio';
 import { db } from '$lib/database';
 
 const decoder = new TextDecoder('iso-8859-2');
-import data from '$lib/store/data.json';
+import dataSet from '$lib/store/data.json';
 
 export async function generateSet() {
-	for (let grade in data) {
-		for (let subjects in (data as any)[grade]) {
-			for (let subject in (data as any)[grade][subjects]) {
-				const book = await getBook((data as any)[grade][subjects][subject]);
-				await db.book.create({
+	for (let grade in dataSet) {
+		const grades = (dataSet as any)[grade];
+		for (let subjects in grades) {
+			for (let subjectBook in grades[subjects]) {
+				const book = await db.book.create({
 					data: {
-						...book,
+						...(await getBook(grades[subjects][subjectBook])),
 						grade: grade as Grade,
 						subject: subjects as Subject
 					}
 				});
+				await registerConditions(book.id);
 			}
 		}
 	}
+}
+
+async function registerConditions(book_id: string) {
+	await db.bookWithCondition.createMany({
+		data: [
+			{ condition: Condition.NEW, book_id },
+			{ condition: Condition.GOOD, book_id },
+			{ condition: Condition.DAMAGED, book_id },
+			{ condition: Condition.BAD, book_id }
+		]
+	});
 }
 
 async function getBook(url: string) {
