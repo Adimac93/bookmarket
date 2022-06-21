@@ -9,21 +9,23 @@ export interface Signup {
 	provider: Provider;
 }
 
-class Sessions {
-	private sessions: Record<string, string> = {};
-	get(cookie: string): string | undefined {
-		return this.sessions[cookie];
+class Store<T> {
+	private hashMap: Record<string, T> = {};
+	get(key: string): T | undefined {
+		return this.hashMap[key];
 	}
-	create(id: string) {
-		const cookie = crypto.randomUUID();
-		this.sessions[cookie] = id;
-		return cookie;
+	create(value: T, key?: string) {
+		key ??= crypto.randomUUID();
+		this.hashMap[key] = value;
+		return key;
 	}
-	delete(cookie: string) {
-		const id = this.sessions[cookie];
-		delete this.sessions[cookie];
-		return id;
+	delete(key: string) {
+		const value = this.hashMap[key];
+		delete this.hashMap[key];
+		return value;
 	}
 }
 
-export const sessions_class = new Sessions();
+export const sessions_class = new Store<string>();
+
+export const states = new Store<{ redirectURI: string }>();
