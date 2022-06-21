@@ -1,27 +1,25 @@
 <script lang="ts">
+	const initOAuth = async (provider: string) => {
+		const url = new URL('https://localhost:3000/api/oauth/state');
+		url.searchParams.append('provider', provider);
+		url.searchParams.append('redirect_uri', window.location.href);
+		const response = await fetch(url).then((r) => r.json());
+		window.location.href = response.redirectURI;
+	};
 </script>
 
 <div class="wrapper">
 	<h1>Zaloguj się</h1>
 	<div class="login-buttons-wrapper">
-		<a
-			class="login-button discord"
-			href="https://discord.com/api/oauth2/authorize?client_id=987076912247627826&redirect_uri=https%3A%2F%2Flocalhost%3A3000%2Flogin%3Fprovider%3Ddiscord&response_type=code&scope=identify%20email"
-			><img src="/discord.svg" alt="Discord logo" /><span>Zaloguj się przez Discorda</span></a
+		<button class="discord" on:click={() => initOAuth('discord')}
+			><img src="/discord.svg" alt="Discord logo" /><span>Zaloguj się przez Discorda</span></button
 		>
-		<a
-			class="login-button google"
-			href="https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id={'266186020689-9dt4vgv7nasollcmg96mp66idnes48is.apps.googleusercontent.com'}&scope=openid%20email&redirect_uri={encodeURI(
-				`https://localhost:3000/login?provider=google`
-			)}&state={'test'}"
-			><img src="/google.svg" alt="Facebook logo" /><span>Zaloguj się przez Google</span></a
+		<button class="google" on:click={() => initOAuth('google')}
+			><img src="/google.svg" alt="Facebook logo" /><span>Zaloguj się przez Google</span></button
 		>
-		<a
-			class="login-button facebook"
-			href="https://www.facebook.com/v14.0/dialog/oauth?client_id={331682405650576}&response_type=code&redirect_uri={encodeURI(
-				`https://localhost:3000/login?provider=facebook`
-			)}&state={'test'}"
-			><img src="/facebook.svg" alt="Facebook logo" /><span>Zaloguj się przez Facebooka</span></a
+		<button class="facebook" on:click={() => initOAuth('facebook')}
+			><img src="/facebook.svg" alt="Facebook logo" /><span>Zaloguj się przez Facebooka</span
+			></button
 		>
 	</div>
 </div>
@@ -46,22 +44,25 @@
 		flex-flow: column nowrap;
 		gap: 0.5em;
 	}
-	.login-button {
+	button {
 		display: flex;
 		flex-flow: row nowrap;
 		justify-content: flex-start;
 		align-items: center;
-		text-decoration: none;
+		padding: 0;
+		border: none;
 		border-radius: 4px;
+		font-size: 1em;
 		height: 40px;
 		width: 300px;
 		transition: 0.1s;
+		cursor: pointer;
 	}
-	.login-button img {
+	button img {
 		height: 50%;
 		margin-left: 0.7em;
 	}
-	.login-button span {
+	button span {
 		display: block;
 		margin: auto;
 		font-weight: 500;

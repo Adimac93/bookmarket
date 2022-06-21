@@ -1,12 +1,24 @@
 const client_id = '331682405650576';
 const client_secret = '2b90b7b4894df78d6b3f53e387a03c87';
 
-export default async (code: string): Promise<string | undefined> => {
+export const getOAuthURL = (state: string) => {
+	const url = new URL('https://www.facebook.com/v14.0/dialog/oauth');
+	url.searchParams.append('client_id', client_id);
+	url.searchParams.append(
+		'redirect_uri',
+		'https://localhost:3000/api/oauth/code?provider=facebook'
+	);
+	url.searchParams.append('response_type', 'code');
+	url.searchParams.append('state', state);
+	return url;
+};
+
+export const handleOAuthCode = async (code: string): Promise<string | undefined> => {
 	const tokenURL = new URL('https://graph.facebook.com/v14.0/oauth/access_token');
 	tokenURL.searchParams.append('code', code);
 	tokenURL.searchParams.append(
 		'redirect_uri',
-		encodeURI('https://localhost:3000/login?provider=facebook')
+		'https://localhost:3000/api/oauth/code?provider=facebook'
 	);
 	tokenURL.searchParams.append('client_id', client_id);
 	tokenURL.searchParams.append('client_secret', client_secret);

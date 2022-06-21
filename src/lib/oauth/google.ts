@@ -1,12 +1,22 @@
 const client_id = '266186020689-9dt4vgv7nasollcmg96mp66idnes48is.apps.googleusercontent.com';
 const client_secret = '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';
 
-export default async (code: string): Promise<string | undefined> => {
+export const getOAuthURL = (state: string) => {
+	const url = new URL('https://accounts.google.com/o/oauth2/v2/auth');
+	url.searchParams.append('client_id', client_id);
+	url.searchParams.append('redirect_uri', 'https://localhost:3000/api/oauth/code?provider=google');
+	url.searchParams.append('response_type', 'code');
+	url.searchParams.append('scope', 'openid email');
+	url.searchParams.append('state', state);
+	return url;
+};
+
+export const handleOAuthCode = async (code: string): Promise<string | undefined> => {
 	const tokenURL = new URL('https://oauth2.googleapis.com/token');
 	tokenURL.searchParams.append('code', code);
 	tokenURL.searchParams.append(
 		'redirect_uri',
-		encodeURI('https://localhost:3000/login?provider=google')
+		encodeURI('https://localhost:3000/api/oauth/code?provider=google')
 	);
 	tokenURL.searchParams.append('client_id', client_id);
 	tokenURL.searchParams.append('client_secret', client_secret);
