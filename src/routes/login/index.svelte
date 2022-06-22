@@ -2,7 +2,10 @@
 	const initOAuth = async (provider: string) => {
 		const url = new URL('https://localhost:3000/api/oauth/state');
 		url.searchParams.append('provider', provider);
-		url.searchParams.append('redirect_uri', window.location.href);
+		url.searchParams.append(
+			'redirect_uri',
+			new URL(window.location.href).searchParams.get('redirect_uri') ?? '/sklep'
+		);
 		const response = await fetch(url).then((r) => r.json());
 		window.location.href = response.redirectURI;
 	};
