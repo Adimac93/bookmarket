@@ -7,7 +7,7 @@ import { handleOAuthCode as facebook } from '$lib/oauth/facebook';
 import { handleOAuthCode as google } from '$lib/oauth/google';
 import { states } from '$lib/database';
 
-export const get: RequestHandler = async ({ url }) => {
+export const get: RequestHandler = async ({ url, locals, request }) => {
 	const provider = url.searchParams.get('provider');
 	const code = url.searchParams.get('code');
 	const state = url.searchParams.get('state');
@@ -32,48 +32,32 @@ export const get: RequestHandler = async ({ url }) => {
 	} else {
 		return { status: 403, body: 'Invalid provider' };
 	}
-	console.log(where);
 
 	if (!where.discord_id && !where.google_id && !where.facebook_id) {
 		return { status: 403, body: 'Authentication error' };
 	}
 
-	// const { id } =
-	// 	(await db.user.findUnique({ where })) ??
-	// 	(await db.user.create({ data: { ...where, name: 'Test' } }));
-	return { status: 200, body: 'Successfully authenticated' };
+	let Location = stateData.redirectURI;
+	let user = await db.user.findUnique({ where });
 
-	// const existingUser = await db.user.findUnique({ where });
+	if (!user) {
+		Location = '/signup';
+		user = await db.user.create({ data: { name: 'Użytkownik', ...where } });
+	}
 
-	// if (existingUser) {
-	// 	return {
-	// 		status: 303,
-	// 		headers: {
-	// 			'Set-Cookie': serialize('session_id', sessions_class.create(existingUser.id), {
-	// 				path: '/',
-	// 				httpOnly: true,
-	// 				sameSite: 'strict',
-	// 				secure: true,
-	// 				maxAge: 60 * 60 * 24 * 1
-	// 			}),
-	// 			Location: '/sklep'
-	// 		}
-	// 	};
-	// }
+	const session_id = sessions_class.create(user.id);
 
-	// const createdUser = await db.user.create({ data: { ...where, name: 'Test' } });
-
-	// return {
-	// 	status: 303,
-	// 	headers: {
-	// 		'Set-Cookie': serialize('session_id', sessions_class.create(createdUser.id), {
-	// 			path: '/',
-	// 			httpOnly: true,
-	// 			sameSite: 'strict',
-	// 			secure: true,
-	// 			maxAge: 60 * 60 * 24 * 1
-	// 		}),
-	// 		Location: '/signup'
-	// 	}
-	// };
+	return {
+		status: 303,
+		headers: {
+			'set-cookie': serialize('session_id', session_id, {
+				path: '/',
+				httpOnly: true,
+				sameSite: 'strict',
+				secure: true,
+				maxAge: 60 * 60 * 24 * 1
+			}),
+			Location
+		}
+	};
 };
