@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { session } from '$app/stores';
+	import { page, session } from '$app/stores';
+	$: redirect_uri = encodeURIComponent($page.url.href);
 </script>
 
 <ul>
@@ -7,7 +8,7 @@
 	<li><a href="/sklep">Sklep</a></li>
 	<li><a href="/o-nas">O nas</a></li>
 	{#if !$session.isLoggedIn}
-		<li><a href="/login">Zaloguj się</a></li>
+		<li><a href="/login?redirect_uri={redirect_uri}">Zaloguj się</a></li>
 		<li><a href="/signup">Załóż konto</a></li>
 	{:else}
 		<li />
