@@ -54,7 +54,7 @@ export const get: RequestHandler = async ({ url, locals, request }) => {
 			'set-cookie': serialize('session_id', session_id, {
 				path: '/',
 				httpOnly: true,
-				sameSite: 'strict',
+				sameSite: 'lax',
 				secure: true,
 				maxAge: 60 * 60 * 24 * 1
 			}),
