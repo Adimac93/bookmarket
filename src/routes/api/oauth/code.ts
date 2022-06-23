@@ -46,6 +46,7 @@ export const get: RequestHandler = async ({ url, locals, request }) => {
 	}
 
 	const session_id = sessions_class.create(user.id);
+	locals.cookies.session_id = session_id;
 
 	return {
 		status: 303,
