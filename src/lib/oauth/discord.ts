@@ -22,14 +22,14 @@ export const handleOAuthCode = async (code: string): Promise<string | undefined>
 	const token_response = await fetch('https://discord.com/api/oauth2/token', {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-		body
+		body,
 	}).then((r) => r.json());
 	const token = token_response.access_token;
 	if (!token) return;
 
 	const data_response = await fetch('https://discordapp.com/api/users/@me', {
 		method: 'GET',
-		headers: { Authorization: `Bearer ${token}` }
+		headers: { Authorization: `Bearer ${token}` },
 	}).then((r) => r.json());
 	return data_response.id;
 };

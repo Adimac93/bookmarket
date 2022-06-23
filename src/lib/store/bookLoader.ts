@@ -14,8 +14,8 @@ export async function generateSet() {
 					data: {
 						...(await getBook(grades[subjects][subjectBook])),
 						grade: grade as Grade,
-						subject: subjects as Subject
-					}
+						subject: subjects as Subject,
+					},
 				});
 				await registerConditions(book.id);
 			}
@@ -29,8 +29,8 @@ async function registerConditions(book_id: string) {
 			{ condition: Condition.NEW, book_id },
 			{ condition: Condition.GOOD, book_id },
 			{ condition: Condition.DAMAGED, book_id },
-			{ condition: Condition.BAD, book_id }
-		]
+			{ condition: Condition.BAD, book_id },
+		],
 	});
 }
 

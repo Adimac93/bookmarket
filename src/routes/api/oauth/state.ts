@@ -30,7 +30,7 @@ export const get: RequestHandler = async ({ url }) => {
 	return {
 		status: 200,
 		body: {
-			redirectURI: oauthURL.toString()
-		}
+			redirectURI: oauthURL.toString(),
+		},
 	};
 };

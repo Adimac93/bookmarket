@@ -56,9 +56,9 @@ export const get: RequestHandler = async ({ url, locals, request }) => {
 				httpOnly: true,
 				sameSite: 'lax',
 				secure: true,
-				maxAge: 60 * 60 * 24 * 1
+				maxAge: 60 * 60 * 24 * 1,
 			}),
-			location
-		}
+			location,
+		},
 	};
 };

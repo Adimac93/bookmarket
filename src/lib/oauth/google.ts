@@ -16,7 +16,7 @@ export const handleOAuthCode = async (code: string): Promise<string | undefined>
 	tokenURL.searchParams.append('code', code);
 	tokenURL.searchParams.append(
 		'redirect_uri',
-		encodeURI('https://localhost:3000/api/oauth/code?provider=google')
+		encodeURI('https://localhost:3000/api/oauth/code?provider=google'),
 	);
 	tokenURL.searchParams.append('client_id', client_id);
 	tokenURL.searchParams.append('client_secret', client_secret);
@@ -29,6 +29,6 @@ export const handleOAuthCode = async (code: string): Promise<string | undefined>
 	console.log(token);
 
 	return JSON.parse(
-		Buffer.from((token_response.id_token as string).split('.')[1], 'base64').toString()
+		Buffer.from((token_response.id_token as string).split('.')[1], 'base64').toString(),
 	).email;
 };

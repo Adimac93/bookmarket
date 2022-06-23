@@ -6,7 +6,7 @@ export const getOAuthURL = (state: string) => {
 	url.searchParams.append('client_id', client_id);
 	url.searchParams.append(
 		'redirect_uri',
-		'https://localhost:3000/api/oauth/code?provider=facebook'
+		'https://localhost:3000/api/oauth/code?provider=facebook',
 	);
 	url.searchParams.append('response_type', 'code');
 	url.searchParams.append('state', state);
@@ -18,7 +18,7 @@ export const handleOAuthCode = async (code: string): Promise<string | undefined>
 	tokenURL.searchParams.append('code', code);
 	tokenURL.searchParams.append(
 		'redirect_uri',
-		'https://localhost:3000/api/oauth/code?provider=facebook'
+		'https://localhost:3000/api/oauth/code?provider=facebook',
 	);
 	tokenURL.searchParams.append('client_id', client_id);
 	tokenURL.searchParams.append('client_secret', client_secret);

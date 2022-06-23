@@ -4,7 +4,7 @@
 		url.searchParams.append('provider', provider);
 		url.searchParams.append(
 			'redirect_uri',
-			new URL(window.location.href).searchParams.get('redirect_uri') ?? '/sklep'
+			new URL(window.location.href).searchParams.get('redirect_uri') ?? '/sklep',
 		);
 		const response = await fetch(url).then((r) => r.json());
 		window.location.href = response.redirectURI;

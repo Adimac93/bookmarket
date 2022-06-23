@@ -1,38 +1,37 @@
 <script lang="ts">
 	import type { Book } from '@prisma/client';
-	
+
 	export let books: Book[];
-	
+
 	let cart = new Set<string>();
-	function addBook(id: string){
-		if (cart.has(id)){
-			cart.delete(id)
+	function addBook(id: string) {
+		if (cart.has(id)) {
+			cart.delete(id);
 		} else {
-			cart.add(id)
+			cart.add(id);
 		}
 		// trigger an update on cart variable
 		cart = cart;
-		console.log(cart)
+		console.log(cart);
 	}
 </script>
+
 <ul>
 	{#each books as book}
 		<div class="book">
-			<div class="cover {cart.has(book.id) ? "marked":""}" on:click="{() => addBook(book.id)}">
+			<div class="cover {cart.has(book.id) ? 'marked' : ''}" on:click={() => addBook(book.id)}>
 				<img src={book.image} alt="Okładka książki" />
 			</div>
-			
+
 			<div class="description">
 				<p class="title">
 					{book.title}<br />
 					<span class="author">{book.author}</span>
-					
 				</p>
-				
 			</div>
 			{#if cart.has(book.id)}
 				<div class="checkmark">✅</div>
-				{/if}
+			{/if}
 		</div>
 	{:else}
 		<h1>No books for ya</h1>
@@ -52,18 +51,18 @@
 		vertical-align: top;
 		transition: height 1s;
 	}
-	.cover:hover{
+	.cover:hover {
 		opacity: 90%;
 		cursor: pointer;
-		transition:max-height 0.3s ease-out;
-		height:auto;
-		max-height:600px; 
+		transition: max-height 0.3s ease-out;
+		height: auto;
+		max-height: 600px;
 	}
-	.cover.marked{
+	.cover.marked {
 		opacity: 75%;
 	}
 
-	.checkmark{
+	.checkmark {
 		display: flex;
 		justify-content: center;
 		margin-bottom: 25px;

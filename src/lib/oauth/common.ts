@@ -4,7 +4,7 @@ import { sessions } from '$lib/database';
 export enum Provider {
 	Google = 'gg',
 	Facebook = 'fb',
-	Discord = 'dc'
+	Discord = 'dc',
 }
 
 export function registerSession(user_id: string) {
@@ -19,11 +19,11 @@ export function registerSession(user_id: string) {
 				httpOnly: true,
 				sameSite: 'strict',
 				secure: true,
-				maxAge: 60 * 60 * 24 * 1
-			})
+				maxAge: 60 * 60 * 24 * 1,
+			}),
 		},
 		body: {
-			message: 'Successfully signed in'
-		}
+			message: 'Successfully signed in',
+		},
 	};
 }

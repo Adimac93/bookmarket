@@ -4,7 +4,7 @@
 		const query = new URLSearchParams(window.location.search);
 		await fetch(`/signup?id=${query.get('id') || ''}`, {
 			method: 'post',
-			body: JSON.stringify({ name })
+			body: JSON.stringify({ name }),
 		});
 		window.location.href = '/sklep';
 	}
