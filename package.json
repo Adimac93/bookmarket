@@ -3,6 +3,7 @@
 	"version": "0.0.1",
 	"scripts": {
 		"dev": "svelte-kit dev",
+		"dev:https" : "svelte-kit dev --https",
 		"test": "jest",
 		"build": "svelte-kit build",
 		"package": "svelte-kit package",
