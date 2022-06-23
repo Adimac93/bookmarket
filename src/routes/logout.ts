@@ -2,9 +2,8 @@ import { sessions } from '$lib/database';
 import { serialize, parse } from 'cookie';
 import type { RequestHandler } from '@sveltejs/kit';
 
-export const get: RequestHandler = async ({ request }) => {
-	const cookie = parse(request.headers.get('Cookie') || '');
-	delete sessions[cookie['session_id']];
+export const get: RequestHandler = async ({ locals }) => {
+	sessions_class.delete(locals.cookies.session_id);
 
 	return {
 		status: 303,
