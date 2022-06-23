@@ -37,11 +37,11 @@ export const get: RequestHandler = async ({ url, locals, request }) => {
 		return { status: 403, body: 'Authentication error' };
 	}
 
-	let Location = stateData.redirectURI;
+	let location = stateData.redirectURI;
 	let user = await db.user.findUnique({ where });
 
 	if (!user) {
-		Location = '/signup';
+		location = '/signup';
 		user = await db.user.create({ data: { name: 'Użytkownik', ...where } });
 	}
 
@@ -58,7 +58,7 @@ export const get: RequestHandler = async ({ url, locals, request }) => {
 				secure: true,
 				maxAge: 60 * 60 * 24 * 1
 			}),
-			Location
+			location
 		}
 	};
 };

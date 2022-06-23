@@ -1,12 +1,15 @@
-import { sessions } from '$lib/database';
-import { serialize, parse } from 'cookie';
 import type { RequestHandler } from '@sveltejs/kit';
+import { serialize } from 'cookie';
+import { sessions_class } from '$lib/database';
 
 export const get: RequestHandler = async ({ locals }) => {
 	sessions_class.delete(locals.cookies.session_id);
 
 	return {
 		status: 303,
-		headers: { Location: '/login', 'Set-Cookie': serialize('session_id', '', { maxAge: 0 }) }
+		headers: {
+			'set-cookie': serialize('session_id', '', { maxAge: 0 }),
+			location: '/login',
+		},
 	};
 };

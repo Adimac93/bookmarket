@@ -1,7 +1,7 @@
 import type { RequestHandler } from '@sveltejs/kit';
-import { Provider, registerSession } from '$lib/oauth/common';
-import { sessions, signups, db } from '$lib/database';
-import { parse } from 'cookie';
+import { Provider } from '$lib/oauth/common';
+import { signups, db } from '$lib/database';
+
 export const post: RequestHandler = async ({ request, url }) => {
 	const form = await request.json();
 	if (!form) return { status: 401 };
@@ -18,15 +18,15 @@ export const post: RequestHandler = async ({ request, url }) => {
 async function registerNewUser(name: string, id: string, provider: Provider) {
 	if (provider == Provider.Discord) {
 		return await db.user.create({
-			data: { name, discord_id: id }
+			data: { name, discord_id: id },
 		});
 	} else if (provider == Provider.Google) {
 		return await db.user.create({
-			data: { name, google_id: id }
+			data: { name, google_id: id },
 		});
 	} else if (provider == Provider.Facebook) {
 		return await db.user.create({
-			data: { name, facebook_id: id }
+			data: { name, facebook_id: id },
 		});
 	}
 }
