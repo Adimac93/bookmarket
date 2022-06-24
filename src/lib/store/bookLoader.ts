@@ -1,4 +1,4 @@
-import { Condition, type Grade, type Subject } from '@prisma/client';
+import type { Grade, Subject } from '@prisma/client';
 import * as cheerio from 'cheerio';
 import { db } from '$lib/database';
 
@@ -10,32 +10,23 @@ export async function generateSet() {
 		const grades = (dataSet as any)[grade];
 		for (let subjects in grades) {
 			for (let subjectBook in grades[subjects]) {
-				const book = await db.book.create({
-					data: {
-						...(await getBook(grades[subjects][subjectBook])),
+				const book = await getBook(grades[subjects][subjectBook]);
+				await db.book.upsert({
+					where: { id: book.id },
+					create: {
+						...book,
 						grade: grade as Grade,
 						subject: subjects as Subject,
 					},
+					update: { price: book.price },
 				});
-				await registerConditions(book.id);
 			}
 		}
 	}
 }
 
-async function registerConditions(book_id: string) {
-	await db.bookWithCondition.createMany({
-		data: [
-			{ condition: Condition.NEW, book_id },
-			{ condition: Condition.GOOD, book_id },
-			{ condition: Condition.DAMAGED, book_id },
-			{ condition: Condition.BAD, book_id },
-		],
-	});
-}
-
 async function getBook(url: string) {
-	const response = await fetch(url, {});
+	const response = await fetch(url);
 
 	const buffer = await response.arrayBuffer();
 
@@ -43,15 +34,16 @@ async function getBook(url: string) {
 
 	const $ = cheerio.load(text);
 
-	const image = 'https:' + $('div .col-left4 .full-col img').attr('src');
-	const title = $('div .product-info span').text().split('.')[0];
+	const imageURL = $('div .col-left4 .full-col a').attr('href')?.toString().split('/') || [];
 
+	const image = imageURL.slice(5).join('/');
+	const id = imageURL.at(-1)?.slice(0, 13);
+	const title = $('div .product-info span').text().split('.')[0];
+	const price = parseInt($('.our-price strong #updateable_price-zl').text());
 	const author = $('div .author h2')
 		.map((i, author) => $(author).text().replace('  ', ' '))
 		.toArray()
 		.join(', ');
 
-	const description = $('#opis').text().trim();
-
-	return { title, author, description, image };
+	return { title, author, image, id, price };
 }
