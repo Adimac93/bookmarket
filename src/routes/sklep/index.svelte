@@ -18,20 +18,15 @@
 
 <ul>
 	{#each books as book}
-		<div class="book">
-			<div class="cover {cart.has(book.id) ? 'marked' : ''}" on:click={() => addBook(book.id)}>
-				<img src={book.image} alt="Okładka książki" />
-			</div>
-
-			<div class="description">
-				<p class="title">
-					{book.title}<br />
-					<span class="author">{book.author}</span>
-				</p>
-			</div>
-			{#if cart.has(book.id)}
+		<div class="book {cart.has(book.id) ? 'marked' : ''}">
+			<div class="cover" on:click={() => addBook(book.id)}>
+				<img src={book.image} alt="Okładka książki" width="200" height="300" />
 				<div class="checkmark">✅</div>
-			{/if}
+			</div>
+			<div class="description">
+				<h2>{book.title}</h2>
+				<p>{book.author}</p>
+			</div>
 		</div>
 	{:else}
 		<h1>No books for ya</h1>
@@ -39,43 +34,80 @@
 </ul>
 
 <style>
+	ul {
+		display: flex;
+		flex-flow: row wrap;
+		list-style: none;
+		margin: 0;
+		padding: 1em;
+		gap: 1em;
+		background-color: #fff;
+	}
 	.book {
-		display: inline-block;
-		width: 230px;
-		height: auto;
-		background-color: white;
-		border-radius: 25px;
-		box-shadow: 0 0 20px rgb(173, 173, 173);
-		margin: 25px;
-		padding: 10px 10px 0 10px;
-		vertical-align: top;
-		transition: height 1s;
+		width: 16em;
+		height: 30em;
+		padding: 1em;
+		border-radius: 0.5em;
+		background-color: #fff;
+		box-shadow: 0 0 1em rgba(0, 0, 0, 0.3);
+		transition: 0.2s;
+	}
+	.book.marked {
+		box-shadow: 0 0 1em rgba(0, 128, 0, 0.5);
+	}
+	.cover {
+		width: 14em;
+		height: 21em;
+		cursor: pointer;
+		transition: 0.2s;
 	}
 	.cover:hover {
 		opacity: 90%;
-		cursor: pointer;
-		transition: max-height 0.3s ease-out;
-		height: auto;
-		max-height: 600px;
 	}
-	.cover.marked {
+	.marked .cover {
 		opacity: 75%;
 	}
 
 	.checkmark {
 		display: flex;
 		justify-content: center;
-		margin-bottom: 25px;
+		align-items: center;
+		position: relative;
+		bottom: 2em;
+		left: 2em;
+		transform: translate(-50%, -50%);
+		width: 3em;
+		height: 3em;
+		background-color: rgba(255, 255, 255, 0.5);
+		border: 1px solid black;
+		border-radius: 50%;
+		transition: 0.2s;
+		opacity: 0;
 	}
-	.cover img {
-		width: 100%;
+	.cover:hover .checkmark {
+		opacity: 1;
 	}
-	.book p {
-		margin-top: 12px;
-		font-size: 20px;
+	.marked .checkmark {
+		opacity: 1;
+		background-color: rgba(0, 255, 0, 0.5);
 	}
-	.book .author {
-		font-size: 15px;
+	img {
+		display: block;
+		height: 100%;
+		width: auto;
+		margin: auto;
+	}
+	h2 {
+		margin: 0.5em 0;
+		font-size: 1.2em;
+	}
+	p {
+		margin: 0.5em 0;
+		font-size: 1em;
+	}
+	h2,
+	p {
+		display: block;
 	}
 	h1 {
 		color: gray;
