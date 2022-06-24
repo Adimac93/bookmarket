@@ -1,5 +1,8 @@
 import type { GetSession, Handle } from '@sveltejs/kit';
 import { parse } from 'cookie';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 export const getSession: GetSession = async ({ locals }) => {
 	return { isLoggedIn: !!locals.cookies.session_id };
