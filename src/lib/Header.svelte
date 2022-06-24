@@ -1,18 +1,22 @@
 <script lang="ts">
 	import { page, session } from '$app/stores';
 	$: redirect_uri = encodeURIComponent($page.url.href);
+	$: url = $page.url.pathname;
 </script>
 
 <ul>
-	<li><a href="/">Strona główna</a></li>
-	<li><a href="/sklep">Sklep</a></li>
-	<li><a href="/o-nas">O nas</a></li>
-	{#if !$session.isLoggedIn}
-		<li><a href="/login?redirect_uri={redirect_uri}">Zaloguj się</a></li>
-		<li><a href="/signup">Załóż konto</a></li>
+	<li><a class:active={url === '/'} href="/">Strona główna</a></li>
+	<li><a class:active={url === '/sklep'} href="/sklep">Sklep</a></li>
+	<li><a class:active={url === '/o-nas'} href="/o-nas">O nas</a></li>
+	{#if $session.isLoggedIn}
+		<li><a class:active={url === '/logout'} href="/logout">Wyloguj się</a></li>
 	{:else}
-		<li />
-		<li><a href="/logout">Wyloguj się</a></li>
+		<li>
+			<a class:active={url === '/signup'} href="/signup">Załóż konto</a>
+		</li>
+		<li>
+			<a class:active={url === '/login'} href="/login?redirect_uri={redirect_uri}">Zaloguj się</a>
+		</li>
 	{/if}
 </ul>
 
@@ -26,8 +30,8 @@
 		justify-content: flex-start;
 		background-color: white;
 	}
-	li:nth-last-child(2) {
-		margin-left: auto;
+	li:nth-child(3) {
+		margin-right: auto;
 	}
 	a {
 		display: block;
@@ -35,6 +39,9 @@
 		transition: 0.2s;
 		text-decoration: none;
 		color: black;
+	}
+	a.active {
+		color: #f40;
 	}
 	a:hover {
 		color: #00d;
