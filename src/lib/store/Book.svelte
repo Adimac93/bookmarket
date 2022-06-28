@@ -49,6 +49,11 @@
 	<div class="info">
 		<h1>{book.title}</h1>
 		<p>{book.author}</p>
+		<div class="tags">
+			{#each [book.grade, book.subject, book.id] as tag}
+				<span class="tag">{tag.toLowerCase()}</span>
+			{/each}
+		</div>
 		<div class="actions">
 			<div class="condition">
 				<span class="price">{priceMapping[condition]} zł</span>
