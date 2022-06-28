@@ -189,4 +189,22 @@
 	.marked button.cart img {
 		filter: invert(1);
 	}
+
+	div.tags {
+		display: flex;
+		flex-flow: row wrap;
+		gap: 0.2em;
+		margin: 0.5em 0;
+	}
+	span.tag {
+		padding: 0.2em 0.5em;
+		font-size: 0.7em;
+		background-color: #ddd;
+		border-radius: 2em;
+		cursor: pointer;
+		transition: 0.2s;
+	}
+	span.tag:hover {
+		background-color: #ccc;
+	}
 </style>
