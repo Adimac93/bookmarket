@@ -15,13 +15,15 @@
 	<h1>Zaloguj się</h1>
 	<div class="login-buttons-wrapper">
 		<button class="discord" on:click={() => initOAuth('discord')}
-			><img src="/discord.svg" alt="Discord logo" /><span>Zaloguj się przez Discorda</span></button
+			><img src="/oauth/discord.svg" alt="Discord logo" /><span>Zaloguj się przez Discorda</span
+			></button
 		>
 		<button class="google" on:click={() => initOAuth('google')}
-			><img src="/google.svg" alt="Facebook logo" /><span>Zaloguj się przez Google</span></button
+			><img src="/oauth/google.svg" alt="Facebook logo" /><span>Zaloguj się przez Google</span
+			></button
 		>
 		<button class="facebook" on:click={() => initOAuth('facebook')}
-			><img src="/facebook.svg" alt="Facebook logo" /><span>Zaloguj się przez Facebooka</span
+			><img src="/oauth/facebook.svg" alt="Facebook logo" /><span>Zaloguj się przez Facebooka</span
 			></button
 		>
 	</div>
