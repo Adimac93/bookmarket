@@ -1,5 +1,5 @@
-const client_id = '331682405650576';
-const client_secret = '2b90b7b4894df78d6b3f53e387a03c87';
+const client_id = process.env.FACEBOOK_CLIENT_ID;
+const client_secret = process.env.FACEBOOK_CLIENT_SECRET;
 
 export const getOAuthURL = (state: string) => {
 	const url = new URL('https://www.facebook.com/v14.0/dialog/oauth');
