@@ -1,5 +1,5 @@
-const client_id = '266186020689-9dt4vgv7nasollcmg96mp66idnes48is.apps.googleusercontent.com';
-const client_secret = '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';
+const client_id = process.env.GOOGLE_CLIENT_ID;
+const client_secret = process.env.GOOGLE_CLIENT_SECRET;
 
 export const getOAuthURL = (state: string) => {
 	const url = new URL('https://accounts.google.com/o/oauth2/v2/auth');

@@ -1,5 +1,5 @@
-const client_id = '987076912247627826';
-const client_secret = 'wi15ZeH5tnQSRvK8HZSvmpKCvRsvld5s';
+const client_id = process.env.DISCORD_CLIENT_ID;
+const client_secret = process.env.DISCORD_CLIENT_SECRET;
 
 export const getOAuthURL = (state: string) => {
 	const url = new URL('https://discord.com/api/oauth2/authorize');
