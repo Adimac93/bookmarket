@@ -4,6 +4,7 @@
 	export let cart: Set<string>;
 	export let book: Book;
 	export let condition: Condition;
+	export let displayCover: (id: string) => () => void;
 
 	$: inCart = cart.has(book.id);
 
@@ -40,6 +41,7 @@
 <div class="book {inCart ? 'marked' : ''}">
 	<div class="cover">
 		<img
+			on:click={displayCover(book.image)}
 			src="https://cf-taniaksiazka.statiki.pl/images/large/{book.image}"
 			alt="Okładka książki"
 			width="200"
@@ -86,9 +88,8 @@
 	}
 	.book {
 		width: 24em;
-		height: 13em;
+		height: fit-content;
 		display: flex;
-		flex-flow: row;
 		padding: 0.5em;
 		gap: 0.5em;
 		border-bottom: 1px solid #ddd;
@@ -97,9 +98,8 @@
 		transition: 0.2s;
 	}
 	.cover {
-		height: 12em;
-		width: 8em;
-		float: left;
+		flex: 0 0 6em;
+		height: 9em;
 		cursor: pointer;
 		transition: 0.2s;
 	}
@@ -109,20 +109,21 @@
 	img {
 		display: block;
 		margin: auto;
-		height: 100%;
-		width: auto;
-	}
-	.info {
-		position: relative;
+		object-fit: contain;
 		height: 100%;
 		width: 100%;
 	}
+	.info {
+		position: relative;
+		flex: 1;
+	}
 	h1 {
 		font-size: 1.2em;
-		margin: 0.5em 0;
+		margin: 0.2em 0;
 	}
 	p {
 		font-size: 0.8em;
+		margin: 0.2em 0;
 	}
 	h1,
 	p {
@@ -137,11 +138,11 @@
 		height: fit-content;
 		width: 100%;
 	}
-	/* div.condition {
+	div.condition {
 		display: flex;
 		align-items: center;
 		gap: 0.5em;
-	} */
+	}
 	span.price {
 		display: block;
 		width: 4ch;
