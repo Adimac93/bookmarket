@@ -42,7 +42,7 @@ export const post: RequestHandler = async ({ request, locals }) => {
 			imageURLs ? await githubImages(imageURLs) : '',
 			`userId: \`${userId}\``,
 		].join('\n'),
-		labels: ['feedback', data.isBug ? 'bug' : 'feature'],
+		labels: ['feedback', data.isBug ? 'bug' : 'feature', data.category],
 	};
 
 	if (process.env.NODE_ENV === 'development') {
