@@ -23,17 +23,17 @@
 			</a>
 		</li>
 		<li>
-			<a href="/m/kup" class:active={path === '/m/kup'}>
+			<a href="/m/kup" class:active={path.startsWith('/m/kup')}>
 				<img src="/m/bottom-nav/shopping-basket.svg" alt="ikona sklepu" /><span>Kup</span>
 			</a>
 		</li>
 		<li>
-			<a href="/m/sprzedaj" class:active={path === '/m/sprzedaj'}>
+			<a href="/m/sprzedaj" class:active={path.startsWith('/m/sprzedaj')}>
 				<img src="/m/bottom-nav/sell-book.svg" alt="ikona sprzedaży" /><span>Sprzedaj</span>
 			</a>
 		</li>
 		<li>
-			<a href="/m/konto" class:active={path === '/m/konto'}>
+			<a href="/m/konto" class:active={path.startsWith('/m/konto')}>
 				<img src="/m/bottom-nav/user.svg" alt="ikona konta" /><span>Konto</span>
 			</a>
 		</li>
