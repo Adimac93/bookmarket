@@ -5,11 +5,18 @@
 	let categories = { ui: 'interfejs', oauth: 'logowanie', account: 'konto' };
 	let category = 'Kategoria';
 
+	let files: FileList;
 	let message = '';
+
 	async function sendForm() {
+		let images: string[] = [];
+		if (files) {
+			images = await prepareImages(files);
+		}
+
 		const response = await fetch('/api/feedback', {
 			method: 'post',
-			body: JSON.stringify({ category, title, description, isBug }),
+			body: JSON.stringify({ category, title, description, isBug, images }),
 		});
 		if (response.status == 200) {
 			message = 'Wysłano zgłoszenie!';
@@ -22,6 +29,25 @@
 			message = 'Coś poszło nie tak, spróbuj ponownie';
 		}
 	}
+	async function prepareImages(files: FileList): Promise<string[]> {
+		let images: string[] = [];
+		for (let i = 0; i < files.length; i++) {
+			let base64 = (await toBase64(files[i])).result;
+
+			if (!base64) {
+				continue;
+			}
+			images.push(base64.toString().split(',')[1]);
+		}
+		return images;
+	}
+	const toBase64 = (file: File): Promise<FileReader> =>
+		new Promise((resolve, reject) => {
+			const reader = new FileReader();
+			reader.readAsDataURL(file);
+			reader.onload = () => resolve(reader);
+			reader.onerror = (error) => reject(error);
+		});
 </script>
 
 <form on:submit|preventDefault={sendForm}>
@@ -44,6 +70,7 @@
 		placeholder="Opis"
 		bind:value={description}
 	/><span />
+	<input type="file" accept="image/png, image/jpeg, image/jpg" multiple bind:files />
 	<button>Wyślij</button>
 </form>
 
