@@ -20,6 +20,8 @@ declare global {
 			GITHUB_CLIENT_SECRET: string;
 			GITHUB_APP_PRIVATE_KEY: string;
 			GITHUB_INSTALLATION_ID: string;
+
+			IMGUR_CLIENT_ID: string;
 		}
 	}
 }
