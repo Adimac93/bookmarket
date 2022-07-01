@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	$: path = $page.url.pathname;
+	$: href = path.replace(/\/\w+\/?$/, '');
 </script>
 
 <header>
@@ -14,6 +15,12 @@
 <main>
 	<slot />
 </main>
+
+{#if href !== '/m'}
+	<a {href} class="round">
+		<img src="/m/chevron/left.svg" alt="strzałka w lewo" />
+	</a>
+{/if}
 
 <nav>
 	<ul>
@@ -41,6 +48,21 @@
 </nav>
 
 <style>
+	a.round {
+		width: 3rem;
+		height: 3rem;
+		border-radius: 50%;
+		background-color: #fff;
+		position: fixed;
+		bottom: 4.6rem;
+		left: 1rem;
+		border: none;
+		cursor: pointer;
+		margin: 0;
+		padding: 0.5rem;
+		display: flex;
+		place-content: center;
+	}
 	main {
 		padding-bottom: 3.6rem;
 	}
