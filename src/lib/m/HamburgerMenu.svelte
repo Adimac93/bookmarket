@@ -4,7 +4,7 @@
 </script>
 
 <button class="round" on:click={() => (hidden = false)}>
-	<img src="/m/chevron-up.svg" alt="strzałka w górę" />
+	<img src="/m/chevron/up.svg" alt="strzałka w górę" />
 </button>
 
 <div class:hidden>
