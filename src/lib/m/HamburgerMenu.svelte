@@ -54,14 +54,15 @@
 		padding: 0.5rem;
 	}
 	button {
+		appearance: none;
 		background-color: transparent;
 		background-repeat: no-repeat;
 		border: none;
 		cursor: pointer;
-		overflow: hidden;
-		outline: none;
 		margin: 0;
 		padding: 0.5rem;
+		display: flex;
+		place-content: center;
 	}
 	ul {
 		list-style: none;
