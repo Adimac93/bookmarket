@@ -1,6 +1,11 @@
 import type { RequestHandler } from '@sveltejs/kit';
-import { Provider } from '$lib/oauth/common';
 import { signups, db } from '$lib/database';
+
+export enum Provider {
+	Google = 'gg',
+	Facebook = 'fb',
+	Discord = 'dc',
+}
 
 export const post: RequestHandler = async ({ request, url }) => {
 	const form = await request.json();
