@@ -36,7 +36,7 @@
 	</label>
 	<button class="confirm">
 		<span>Dodaj</span>
-		<img src="/m/chevron/right.svg" alt="strzałka w prawo" />
+		<img src="/chevron/right.svg" alt="strzałka w prawo" />
 	</button>
 </form>
 

@@ -5,7 +5,7 @@
 </script>
 
 <header>
-	<a href="/m/">
+	<a href="/">
 		<img src="/favicon.png" alt="logo bookmarket" />
 		<span>bookmarket</span>
 	</a>
@@ -16,32 +16,32 @@
 	<slot />
 </main>
 
-{#if href !== '/m'}
+{#if href !== ''}
 	<a {href} class="round">
-		<img src="/m/chevron/left.svg" alt="strzałka w lewo" />
+		<img src="/chevron/left.svg" alt="strzałka w lewo" />
 	</a>
 {/if}
 
 <nav>
 	<ul>
 		<li>
-			<a href="/m/" class:active={path === '/m/'}>
-				<img src="/m/bottom-nav/home.svg" alt="ikona strony głównej" /><span>Główna</span>
+			<a href="/" class:active={path === '/'}>
+				<img src="/bottom-nav/home.svg" alt="ikona strony głównej" /><span>Główna</span>
 			</a>
 		</li>
 		<li>
-			<a href="/m/kup" class:active={path.startsWith('/m/kup')}>
-				<img src="/m/bottom-nav/shopping-basket.svg" alt="ikona sklepu" /><span>Kup</span>
+			<a href="/kup" class:active={path.startsWith('/kup')}>
+				<img src="/bottom-nav/shopping-basket.svg" alt="ikona sklepu" /><span>Kup</span>
 			</a>
 		</li>
 		<li>
-			<a href="/m/sprzedaj" class:active={path.startsWith('/m/sprzedaj')}>
-				<img src="/m/bottom-nav/sell-book.svg" alt="ikona sprzedaży" /><span>Sprzedaj</span>
+			<a href="/sprzedaj" class:active={path.startsWith('/sprzedaj')}>
+				<img src="/bottom-nav/sell-book.svg" alt="ikona sprzedaży" /><span>Sprzedaj</span>
 			</a>
 		</li>
 		<li>
-			<a href="/m/konto" class:active={path.startsWith('/m/konto')}>
-				<img src="/m/bottom-nav/user.svg" alt="ikona konta" /><span>Konto</span>
+			<a href="/konto" class:active={path.startsWith('/konto')}>
+				<img src="/bottom-nav/user.svg" alt="ikona konta" /><span>Konto</span>
 			</a>
 		</li>
 	</ul>

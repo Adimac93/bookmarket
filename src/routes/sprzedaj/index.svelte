@@ -18,7 +18,7 @@
 {/each}
 
 <HamburgerMenu title="Sprzedaj">
-	<HamburgerMenuItem href="/m/sprzedaj/dodaj" text="Dodaj książkę" />
-	<HamburgerMenuItem href="/m/sprzedaj/sprzedane" text="Sprzedane książki" />
-	<HamburgerMenuItem href="/m/sprzedaj/dodaj/wybierz" text="Wybierz książkę z listy" />
+	<HamburgerMenuItem href="/sprzedaj/dodaj" text="Dodaj książkę" />
+	<HamburgerMenuItem href="/sprzedaj/sprzedane" text="Sprzedane książki" />
+	<HamburgerMenuItem href="/sprzedaj/dodaj/wybierz" text="Wybierz książkę z listy" />
 </HamburgerMenu>

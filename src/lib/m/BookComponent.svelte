@@ -42,9 +42,9 @@
 			<span>{book.id}</span>
 			<span>{gradeMap[book.grade]}</span>
 			<span>{subjectMap[book.subject]}</span>
-			<a href="/m/sprzedaj/dodaj/potwierdz?isbn={book.id}" class="confirm">
+			<a href="/sprzedaj/dodaj/potwierdz?isbn={book.id}" class="confirm">
 				<span>Wybierz</span>
-				<img src="/m/chevron/right.svg" alt="strzałka w prawo" />
+				<img src="/chevron/right.svg" alt="strzałka w prawo" />
 			</a>
 		</div>
 	</div>
