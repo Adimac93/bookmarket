@@ -4,7 +4,7 @@
 	import { type Book, Grade, Subject } from '@prisma/client';
 	import { onMount } from 'svelte';
 
-	let ISBN = '';
+	let isbn = '';
 	let title = '';
 	let grade: Grade;
 	let subject: Subject;
@@ -12,7 +12,7 @@
 	let books: Book[] = [];
 	$: booksFiltered = books.filter(
 		(book) =>
-			book.id.includes(ISBN) &&
+			book.id.includes(isbn) &&
 			book.title.toLowerCase().includes(title.toLowerCase()) &&
 			(!grade || book.grade === grade) &&
 			(!subject || book.subject === subject),
@@ -29,7 +29,7 @@
 <form>
 	<label>
 		<span>Kod ISBN</span>
-		<input type="text" bind:value={ISBN} placeholder="9788326739620" />
+		<input type="text" bind:value={isbn} placeholder="9788326739620" />
 	</label>
 	<label>
 		<span>Klasa</span>
@@ -64,10 +64,10 @@
 <style>
 	ul {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+		grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
 		margin: 0;
-		padding: 0rem;
-		/* gap: 0.2rem; */
+		padding: 0.2rem;
+		gap: 0.2rem;
 		list-style: none;
 	}
 	form {
@@ -75,7 +75,10 @@
 		flex-flow: column;
 		padding: 0.5rem;
 		gap: 0.5rem;
-		font-size: 1.2rem;
+		font-size: 1.1rem;
+		position: sticky;
+		top: 0;
+		background-color: #fff;
 	}
 	label {
 		display: flex;
@@ -93,7 +96,7 @@
 		flex: 0 1 60%;
 		font-size: 1rem;
 		padding: 0.2em;
-		background-color: #fff;
+		background-color: #e8e8e8;
 		box-shadow: none;
 		/* border: 2px solid #444; */
 		border: none;
