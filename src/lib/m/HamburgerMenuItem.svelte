@@ -6,7 +6,7 @@
 <li>
 	<a {href}>
 		<span>{text}</span>
-		<img src="/m/chevron-right.svg" alt="strzałka w prawo" />
+		<img src="/chevron/right.svg" alt="strzałka w prawo" />
 	</a>
 </li>
 

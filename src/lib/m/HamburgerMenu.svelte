@@ -4,14 +4,14 @@
 </script>
 
 <button class="round" on:click={() => (hidden = false)}>
-	<img src="/m/chevron-up.svg" alt="strzałka w górę" />
+	<img src="/chevron/up.svg" alt="strzałka w górę" />
 </button>
 
 <div class:hidden>
 	<header>
 		<span>{title}</span>
 		<button on:click={() => (hidden = true)}>
-			<img src="/m/x.svg" alt="x-zamknij" />
+			<img src="/x.svg" alt="x-zamknij" />
 		</button>
 	</header>
 	<ul>
@@ -54,14 +54,15 @@
 		padding: 0.5rem;
 	}
 	button {
+		appearance: none;
 		background-color: transparent;
 		background-repeat: no-repeat;
 		border: none;
 		cursor: pointer;
-		overflow: hidden;
-		outline: none;
 		margin: 0;
 		padding: 0.5rem;
+		display: flex;
+		place-content: center;
 	}
 	ul {
 		list-style: none;

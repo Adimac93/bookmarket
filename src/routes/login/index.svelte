@@ -1,10 +1,11 @@
 <script lang="ts">
 	const initOAuth = async (provider: string) => {
-		const url = new URL('https://localhost:3000/api/oauth/state');
+		const url = new URL('/api/oauth/state', window.location.origin);
 		url.searchParams.append('provider', provider);
 		url.searchParams.append(
 			'redirect_uri',
-			new URL(window.location.href).searchParams.get('redirect_uri') ?? '/sklep',
+			new URLSearchParams(window.location.search).get('redirect_uri') ??
+				window.location.origin + '/sklep',
 		);
 		const response = await fetch(url).then((r) => r.json());
 		window.location.href = response.redirectURI;

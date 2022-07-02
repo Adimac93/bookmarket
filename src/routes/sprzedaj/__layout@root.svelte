@@ -1,10 +1,11 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	$: path = $page.url.pathname;
+	$: href = path.replace(/\/\w+\/?$/, '');
 </script>
 
 <header>
-	<a href="/m/">
+	<a href="/">
 		<img src="/favicon.png" alt="logo bookmarket" />
 		<span>bookmarket</span>
 	</a>
@@ -15,32 +16,53 @@
 	<slot />
 </main>
 
+{#if href !== ''}
+	<a {href} class="round">
+		<img src="/chevron/left.svg" alt="strzałka w lewo" />
+	</a>
+{/if}
+
 <nav>
 	<ul>
 		<li>
-			<a href="/m/" class:active={path === '/m/'}>
-				<img src="/m/bottom-nav/home.svg" alt="ikona strony głównej" /><span>Główna</span>
+			<a href="/" class:active={path === '/'}>
+				<img src="/bottom-nav/home.svg" alt="ikona strony głównej" /><span>Główna</span>
 			</a>
 		</li>
 		<li>
-			<a href="/m/kup" class:active={path === '/m/kup'}>
-				<img src="/m/bottom-nav/shopping-basket.svg" alt="ikona sklepu" /><span>Kup</span>
+			<a href="/kup" class:active={path.startsWith('/kup')}>
+				<img src="/bottom-nav/shopping-basket.svg" alt="ikona sklepu" /><span>Kup</span>
 			</a>
 		</li>
 		<li>
-			<a href="/m/sprzedaj" class:active={path === '/m/sprzedaj'}>
-				<img src="/m/bottom-nav/sell-book.svg" alt="ikona sprzedaży" /><span>Sprzedaj</span>
+			<a href="/sprzedaj" class:active={path.startsWith('/sprzedaj')}>
+				<img src="/bottom-nav/sell-book.svg" alt="ikona sprzedaży" /><span>Sprzedaj</span>
 			</a>
 		</li>
 		<li>
-			<a href="/m/konto" class:active={path === '/m/konto'}>
-				<img src="/m/bottom-nav/user.svg" alt="ikona konta" /><span>Konto</span>
+			<a href="/konto" class:active={path.startsWith('/konto')}>
+				<img src="/bottom-nav/user.svg" alt="ikona konta" /><span>Konto</span>
 			</a>
 		</li>
 	</ul>
 </nav>
 
 <style>
+	a.round {
+		width: 3rem;
+		height: 3rem;
+		border-radius: 50%;
+		background-color: #fff;
+		position: fixed;
+		bottom: 4.6rem;
+		left: 1rem;
+		border: none;
+		cursor: pointer;
+		margin: 0;
+		padding: 0.5rem;
+		display: flex;
+		place-content: center;
+	}
 	main {
 		padding-bottom: 3.6rem;
 	}
