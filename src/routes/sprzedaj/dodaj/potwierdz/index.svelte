@@ -1,15 +1,24 @@
 <script lang="ts">
-	import type { Book } from '@prisma/client';
+	import { type Book, Condition } from '@prisma/client';
 
 	export let book: Book;
+
+	let condition: Condition = 'GOOD';
 
 	const submit = async () => {
 		const searchParams = new URLSearchParams();
 		searchParams.append('isbn', book.id);
-		searchParams.append('condition', 'NEW');
-		await fetch(`potwierdz/__data.json?${searchParams}`, {
+		searchParams.append('condition', condition);
+		await fetch(`/sprzedaj/dodaj/potwierdz/__data.json?${searchParams}`, {
 			method: 'post',
 		});
+	};
+
+	const conditionDescription: { [K in Condition]: string } = {
+		NEW: 'Książka w stanie nowym - czyli po prostu nowa.',
+		GOOD: 'Książka w stanie dobrym - czyli po prostu używana.',
+		DAMAGED: 'Książka w stanie lekko zniszczonym - używana ale bardziej.',
+		BAD: 'Książka w stanie złym - coś poszło nie tak.',
 	};
 </script>
 
@@ -27,6 +36,28 @@
 	<span>{book.id}</span>
 	<span>{book.grade}</span>
 	<span>{book.subject}</span>
+	<div class="right">
+		<h3>Stan książki</h3>
+		<div class="radio">
+			<label>
+				<input type="radio" name="condition" value={Condition.NEW} bind:group={condition} />
+				<span>Nowy</span>
+			</label>
+			<label>
+				<input type="radio" name="condition" value={Condition.GOOD} bind:group={condition} />
+				<span>Dobry</span>
+			</label>
+			<label>
+				<input type="radio" name="condition" value={Condition.DAMAGED} bind:group={condition} />
+				<span>Zniszczony</span>
+			</label>
+			<label>
+				<input type="radio" name="condition" value={Condition.BAD} bind:group={condition} />
+				<span>Zły</span>
+			</label>
+		</div>
+		<p>{conditionDescription[condition]}</p>
+	</div>
 	<label>
 		<input type="checkbox" name="confirm" required />
 		<span>
@@ -72,11 +103,42 @@
 		margin: 0.4rem;
 		font-size: 1.2rem;
 	}
-	form > span {
-		display: block;
-	}
 	label {
 		display: block;
+	}
+	.radio {
+		display: flex;
+		flex-flow: row nowrap;
+		justify-content: stretch;
+		gap: 0.2rem;
+	}
+	.radio label {
+		display: block;
+		flex: 1;
+	}
+	.radio span {
+		display: block;
+		background-color: #f50;
+		color: #fff;
+		border-radius: 2rem;
+		text-align: center;
+		padding: 0.3rem 0.6rem;
+		transition: background-color 0.2s;
+	}
+	.radio input {
+		display: none;
+	}
+	.radio :not(:checked) + span {
+		background-color: #888;
+	}
+	.right p {
+		display: inline-block;
+		font-size: 1rem;
+	}
+	h3 {
+		margin: 0;
+		font-size: 1rem;
+		font-weight: normal;
 	}
 	button {
 		text-decoration: none;
