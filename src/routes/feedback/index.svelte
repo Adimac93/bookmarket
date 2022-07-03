@@ -51,7 +51,7 @@
 </script>
 
 <form on:submit|preventDefault={sendForm}>
-	<button on:click={() => (isBug = !isBug)}>Zmień typ zgłoszenia</button>
+	<button on:click|preventDefault={() => (isBug = !isBug)}>Zmień typ zgłoszenia</button>
 	<h1>{isBug ? 'Zgłoś błąd' : 'Zasugeruj zmiany'}</h1>
 	<h3>{message}</h3>
 	<input type="text" required placeholder="Tytuł" bind:value={title} /><span />
