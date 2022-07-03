@@ -13,7 +13,7 @@ const installationId = parseInt(process.env.GITHUB_INSTALLATION_ID);
 export const post: RequestHandler = async ({ request, locals }) => {
 	const data = (await request.json()) as Feedback;
 
-	if (!data.title || !data.description || !data.category || !data.isBug) {
+	if (!data.title || !data.description || !data.category || typeof data.isBug !== 'boolean') {
 		return { status: 400, body: 'Missing feedback fields' };
 	}
 
@@ -21,7 +21,7 @@ export const post: RequestHandler = async ({ request, locals }) => {
 		return { status: 403, body: 'Exceded data limit' };
 	}
 
-	if (data.category != ('ui' || 'account' || 'oauth')) {
+	if (data.category !== 'ui' && data.category !== 'account' && data.category !== 'oauth') {
 		return { status: 403, body: `Unknown category ${data.category}` };
 	}
 
