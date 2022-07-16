@@ -44,13 +44,14 @@
 		scanner = new Html5QrcodeScanner(
 			'reader',
 			{
-				fps: 10,
+				fps: 30,
 				qrbox: { height: 200, width: 500 },
 				supportedScanTypes: [
 					Html5QrcodeScanType.SCAN_TYPE_CAMERA,
 					Html5QrcodeScanType.SCAN_TYPE_FILE,
 				],
 				formatsToSupport: [Html5QrcodeSupportedFormats.EAN_13],
+				experimentalFeatures: { useBarCodeDetectorIfSupported: true },
 			},
 			false,
 		);
