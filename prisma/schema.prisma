@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -22,20 +19,22 @@ model User {
 }
 
 model Book {
-  id      String              @id @default(uuid())
-  title   String
-  author  String
-  price   Int
-  image   String
-  grade   Grade
-  subject Subject
-  books   BookWithCondition[]
+  id          String              @id @default(uuid())
+  title       String
+  author      String
+  price       Int
+  image       String
+  grade       Grade
+  subject     Subject
+  is_advanced Boolean
+  url         String
+  books       BookWithCondition[]
 }
 
 model BookWithCondition {
-  book      Book         @relation(fields: [book_id], references: [id])
   book_id   String
   condition Condition
+  book      Book         @relation(fields: [book_id], references: [id])
   copies    BookCopy[]
   carts     BookInCart[]
 
@@ -43,23 +42,23 @@ model BookWithCondition {
 }
 
 model BookInCart {
-  user                User              @relation(fields: [user_id], references: [id])
   user_id             String
-  book_with_condition BookWithCondition @relation(fields: [book_id, condition], references: [book_id, condition])
   book_id             String
   condition           Condition
+  book_with_condition BookWithCondition @relation(fields: [book_id, condition], references: [book_id, condition])
+  user                User              @relation(fields: [user_id], references: [id])
 
   @@unique([book_id, user_id])
 }
 
 model BookCopy {
   id                  String            @id @default(uuid())
-  owner               User              @relation(fields: [owner_id], references: [id])
   owner_id            String
   status              String
-  book_with_condition BookWithCondition @relation(fields: [book_id, condition], references: [book_id, condition])
   book_id             String
   condition           Condition
+  book_with_condition BookWithCondition @relation(fields: [book_id, condition], references: [book_id, condition])
+  owner               User              @relation(fields: [owner_id], references: [id])
 }
 
 enum Condition {
@@ -90,4 +89,5 @@ enum Subject {
   PHYSICS
   COMPUTER_SCIENCE
   ENTREPRENEURSHIP
+  EDUCATION_FOR_SAFETY
 }
