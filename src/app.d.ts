@@ -1,5 +1,7 @@
 /// <reference types="@sveltejs/kit" />
 
+import type { User } from "@prisma/client";
+
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
 declare namespace App {
@@ -10,6 +12,7 @@ declare namespace App {
 	// interface Platform {}
 	interface Session {
 		isLoggedIn: boolean;
+		user: User | null;
 	}
 	// interface Stuff {}
 }

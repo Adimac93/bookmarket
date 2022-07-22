@@ -8,7 +8,8 @@
 	<li><a class:active={url === '/'} href="/">Strona główna</a></li>
 	<li><a class:active={url === '/sklep'} href="/sklep">Sklep</a></li>
 	<li><a class:active={url === '/o-nas'} href="/o-nas">O nas</a></li>
-	{#if $session.isLoggedIn}
+	<li>{$session.user?.name ?? 'not logged in'}</li>
+	{#if $session.user}
 		<li><a class:active={url === '/logout'} href="/logout">Wyloguj się</a></li>
 	{:else}
 		<li>
