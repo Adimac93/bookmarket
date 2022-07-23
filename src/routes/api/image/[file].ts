@@ -1,9 +1,9 @@
 import type { RequestHandler } from '@sveltejs/kit';
-import { readFileSync } from 'node:fs';
+import { readFile } from 'node:fs/promises';
 
 export const get: RequestHandler = async ({ params }) => {
 	console.log(params.file);
-	const file = readFileSync(`images/${params.file}`, 'base64');
+	const file = await readFile(`images/${params.file}`, 'base64');
 	const image = Buffer.from(file, 'base64');
 	return {
 		'Content-Type': 'image/png',
