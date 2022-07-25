@@ -8,10 +8,9 @@ dotenv.config();
 export const getSession: GetSession = async ({ locals }) => {
 	const sessionId = locals.cookies.session_id;
 	const id = sessions_class.get(sessionId);
-	const user = id ? await db.user.findUnique({ where: { id }}) : null;
+	const user = id ? await db.user.findUnique({ where: { id } }) : null;
 	return {
-		isLoggedIn: !!locals.cookies.session_id,
-		user
+		user,
 	};
 };
 

@@ -12,7 +12,6 @@ declare global {
 		}
 		// interface Platform {}
 		interface Session {
-			isLoggedIn: boolean;
 			user: User | null;
 		}
 		// interface Stuff {}
