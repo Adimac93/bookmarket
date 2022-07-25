@@ -1,18 +1,20 @@
 /// <reference types="@sveltejs/kit" />
 
-import type { User } from "@prisma/client";
+import type { User } from '@prisma/client';
 
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
-declare namespace App {
-	interface Locals {
-		cookies: Record<string, string>;
-		session_id?: string;
+declare global {
+	declare namespace App {
+		interface Locals {
+			cookies: Record<string, string>;
+			session_id?: string;
+		}
+		// interface Platform {}
+		interface Session {
+			isLoggedIn: boolean;
+			user: User | null;
+		}
+		// interface Stuff {}
 	}
-	// interface Platform {}
-	interface Session {
-		isLoggedIn: boolean;
-		user: User | null;
-	}
-	// interface Stuff {}
 }
