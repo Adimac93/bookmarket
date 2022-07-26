@@ -8,7 +8,6 @@ declare global {
 	declare namespace App {
 		interface Locals {
 			cookies: Record<string, string>;
-			session_id?: string;
 		}
 		// interface Platform {}
 		interface Session {
