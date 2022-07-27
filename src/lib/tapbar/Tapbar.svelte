@@ -6,31 +6,31 @@
 	<ul>
 		<TapbarIcon
 			name="Zapisane"
-			href="zapisane"
+			href="/zapisane"
 			src="/tapbar/bookmark.svg"
 			alt="ikona wybierania książek do kupienia"
 		/>
 		<TapbarIcon
 			name="Zamówione"
-			href="zamowione"
+			href="/zamowione"
 			src="/tapbar/checklist.svg"
 			alt="ikona zarezerwowanych książek"
 		/>
 		<TapbarIcon
 			name="Moje książki"
-			href="moje-ksiazki"
+			href="/moje-ksiazki"
 			src="/tapbar/repo.svg"
 			alt="ikona moich książek"
 		/>
 		<TapbarIcon
 			name="Na sprzedaż"
-			href="na-sprzedaz"
+			href="/na-sprzedaz"
 			src="/tapbar/repo-push.svg"
 			alt="ikona książek wystawionych na sprzedaż"
 		/>
 		<TapbarIcon
 			name="Sprzedane"
-			href="sprzedane"
+			href="/sprzedane"
 			src="/tapbar/history.svg"
 			alt="ikona sprzedanych książek"
 		/>

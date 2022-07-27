@@ -9,7 +9,7 @@
 </script>
 
 <li>
-	<a {href} class:active={path.startsWith(`/m/${href}`)}>
+	<a {href} class:active={path.startsWith(href)}>
 		<img {src} {alt} /><span>{name}</span>
 	</a>
 </li>
