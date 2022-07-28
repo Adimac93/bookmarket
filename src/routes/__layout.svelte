@@ -1,5 +1,6 @@
 <script lang="ts">
-	import Header from '$lib/Header.svelte';
+	import Header from '$lib/header/Header.svelte';
+	import Tapbar from '$lib/tapbar/Tapbar.svelte';
 	import '../app.css';
 </script>
 
@@ -8,3 +9,11 @@
 <main>
 	<slot />
 </main>
+
+<Tapbar />
+
+<style>
+	main {
+		margin-bottom: 3rem;
+	}
+</style>

@@ -24,6 +24,7 @@
 		PHYSICS: 'Fizyka',
 		BIOLOGY: 'Biologia',
 		ENTREPRENEURSHIP: 'Przedsiębiorczość',
+		EDUCATION_FOR_SAFETY: 'Edukacja dla bezpieczeństwa',
 	};
 </script>
 
