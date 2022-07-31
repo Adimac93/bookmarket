@@ -1,9 +1,9 @@
 import { db, sessions_class } from '$lib/database';
 import type { GetSession, Handle } from '@sveltejs/kit';
 import { parse } from 'cookie';
-import dotenv from 'dotenv';
+import { beforeStart } from '$lib/events';
 
-dotenv.config();
+await beforeStart();
 
 export const getSession: GetSession = async ({ locals }) => {
 	const sessionId = locals.cookies.session_id;

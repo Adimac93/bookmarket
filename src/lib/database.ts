@@ -1,13 +1,6 @@
 import { PrismaClient } from '@prisma/client';
-import type { Provider } from '$lib/oauth/common';
 
 export const db = new PrismaClient();
-export const sessions: Record<string, string> = {};
-export const signups: Record<string, Signup> = {};
-export interface Signup {
-	id: string;
-	provider: Provider;
-}
 
 class Store<T> {
 	private hashMap: Record<string, T> = {};
