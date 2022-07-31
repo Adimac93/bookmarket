@@ -1,6 +1,6 @@
 interface SessionManager {
 	/** @returns sessionID */
-	logIn(userID: string, expires: Date): string;
+	logIn(userID: string, maxAge: number): string;
 
 	getUserID(sessionID: string): string | undefined;
 
@@ -19,12 +19,12 @@ interface Session {
 const hashMap: Record<string, Session> = Object.create(null);
 
 export const session: SessionManager = {
-	logIn(userID, expires) {
+	logIn(userID, maxAge) {
 		const sessionID = crypto.randomUUID();
 
 		hashMap[sessionID] = {
 			userID,
-			expires: expires.valueOf(),
+			expires: Date.now() + maxAge * 1000,
 		};
 		return sessionID;
 	},
@@ -33,7 +33,7 @@ export const session: SessionManager = {
 		if (!user) {
 			return;
 		}
-		if (user.expires > Date.now()) {
+		if (user.expires < Date.now()) {
 			delete hashMap[sessionID];
 			return;
 		}
