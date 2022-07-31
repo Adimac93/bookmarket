@@ -7,58 +7,59 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model School {
+  id       String    @id @default(uuid())
+  name     String
+  students User[]
+  profiles Profile[]
+}
+
+model Profile {
+  id       String    @id @default(uuid())
+  name     String
+  school   School?   @relation(fields: [schoolId], references: [id])
+  schoolId String?
+  subject  Subject[]
+  User     User[]
+}
+
 model User {
-  id           String       @id @default(uuid())
+  id           String         @id @default(uuid())
   name         String
-  phone_number String?      @unique
-  discord_id   String?      @unique
-  google_id    String?      @unique
-  facebook_id  String?      @unique
-  books        BookCopy[]
-  cart         BookInCart[]
+  phone_number String?        @unique
+  discordId    String?        @unique
+  googleId     String?        @unique
+  facebookId   String?        @unique
+  grade        Grade
+  school       School         @relation(fields: [schoolId], references: [id])
+  schoolId     String
+  books        BookInstance[]
+  profile      Profile        @relation(fields: [profileId], references: [id])
+  profileId    String
 }
 
 model Book {
-  id          String              @id @default(uuid())
+  id          String         @id @default(uuid())
   title       String
   author      String
-  price       Int
+  price       Decimal
   image       String
   grade       Grade
-  subject     Subject
-  is_advanced Boolean
+  subject     Subject        @relation(fields: [subjectName], references: [name])
+  subjectName String
+  isAdvanced  Boolean
   url         String
-  books       BookWithCondition[]
+  instances   BookInstance[]
 }
 
-model BookWithCondition {
-  book_id   String
+model BookInstance {
+  id        String    @id @default(uuid())
+  status    String
+  bookId    String
+  book      Book      @relation(fields: [bookId], references: [id])
+  ownerId   String
+  owner     User      @relation(fields: [ownerId], references: [id])
   condition Condition
-  book      Book         @relation(fields: [book_id], references: [id])
-  copies    BookCopy[]
-  carts     BookInCart[]
-
-  @@id([book_id, condition])
-}
-
-model BookInCart {
-  user_id             String
-  book_id             String
-  condition           Condition
-  book_with_condition BookWithCondition @relation(fields: [book_id, condition], references: [book_id, condition])
-  user                User              @relation(fields: [user_id], references: [id])
-
-  @@unique([book_id, user_id])
-}
-
-model BookCopy {
-  id                  String            @id @default(uuid())
-  owner_id            String
-  status              String
-  book_id             String
-  condition           Condition
-  book_with_condition BookWithCondition @relation(fields: [book_id, condition], references: [book_id, condition])
-  owner               User              @relation(fields: [owner_id], references: [id])
 }
 
 enum Condition {
@@ -75,19 +76,9 @@ enum Grade {
   FOURTH
 }
 
-enum Subject {
-  MATH
-  ENGLISH
-  POLISH
-  GERMAN
-  RUSSIAN
-  HISTORY
-  CIVICS
-  CHEMISTRY
-  BIOLOGY
-  GEOGRAPHY
-  PHYSICS
-  COMPUTER_SCIENCE
-  ENTREPRENEURSHIP
-  EDUCATION_FOR_SAFETY
+model Subject {
+  name     String    @id @unique
+  alias    String?   @unique
+  Book     Book[]
+  profiles Profile[]
 }
