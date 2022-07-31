@@ -1,0 +1,16 @@
+{
+  "math": ["matematyka"],
+  "english": ["język angielski","angielski"],
+  "polish": ["język polski","polski"],
+  "german": ["język niemiecki","niemiecki"],
+  "russian": ["język rosyjski","rosyjski" ],
+  "history": ["historia"],
+  "civics": ["wiedza o społeczeństwie", "wos"],
+  "chemistry": ["chemia"],
+  "biology": ["biologia"],
+  "geography": ["geografia"],
+  "physics": ["fizyka"],
+  "computer_science": ["informatyka", "it"],
+  "entrepreneurship": ["przedsiębiorczość", "pp"],
+  "education_for_safety": ["edukacja dla bezpieczeństwa", "edb"]
+}
