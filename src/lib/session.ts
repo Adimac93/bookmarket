@@ -60,7 +60,7 @@ export const session: SessionManager = {
 		let result: string[] = [];
 
 		for (const sessionID in hashMap) {
-			if (hashMap[sessionID].expires > now) {
+			if (hashMap[sessionID].expires < now) {
 				delete hashMap[sessionID];
 			} else if (hashMap[sessionID].userID === userID) {
 				result.push(sessionID);
@@ -90,7 +90,7 @@ export const sweep = () => {
 	const now = Date.now();
 
 	for (const sessionID in hashMap) {
-		if (hashMap[sessionID].expires > now) {
+		if (hashMap[sessionID].expires < now) {
 			delete hashMap[sessionID];
 		}
 	}
