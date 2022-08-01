@@ -4,7 +4,7 @@
 	import { createEventDispatcher } from 'svelte';
 	export let id: number;
 	export let label: string;
-	export let choices: [string, string, string][];
+	export let choices: [string, string][];
 	export let current: number;
 	$: active = current === id;
 	let internalvalue = '';
@@ -14,7 +14,7 @@
 
 	let prepared: {
 		id: number;
-		original: [string, string, string];
+		original: [string, string];
 		prepared: Fuzzysort.Prepared;
 	}[] = [];
 
@@ -35,43 +35,52 @@
 
 	const dispatch = createEventDispatcher<{ select: string }>();
 
-	const selectChoice = (thisValue: [string, string, string]) => () => {
+	const selectChoice = (thisValue: [string, string]) => () => {
 		value = internalvalue = thisValue[0];
 		current++;
 		dispatch('select', internalvalue);
 	};
 </script>
 
-<label on:click={() => (current = id)}>
-	<span>{id}</span>
-	<input type="text" placeholder={label} bind:value={internalvalue} />
-	{#if active}
-		<div on:click={() => (internalvalue = '')}>
-			<img src="/x.svg" alt="x-zamknij" />
-		</div>
-	{:else}
-		<div>
-			<img src="/chevron/down.svg" alt="strzałka w dół" />
-		</div>
-	{/if}
-</label>
-<ul class:active>
-	{#each filtered as choice}
-		<li on:click={selectChoice(choice.obj.original)}>
-			<h1>{choice.obj.original[0]}</h1>
-			<p>{choice.obj.original[2]}<!--, powiat {choice.obj.original[1]}--></p>
-		</li>
-	{/each}
-</ul>
+<div class="wrapper" class:active>
+	<label on:click={() => (current = id)}>
+		<span>{id}</span>
+		<input type="text" placeholder={label} bind:value={internalvalue} />
+		{#if active}
+			<div class="img" on:click={() => (internalvalue = '')}>
+				<img src="/x.svg" alt="x-zamknij" />
+			</div>
+		{:else}
+			<div class="img">
+				<img src="/chevron/down.svg" alt="strzałka w dół" />
+			</div>
+		{/if}
+	</label>
+	<ul>
+		{#each filtered as choice}
+			<li on:click={selectChoice(choice.obj.original)}>
+				<h1>{choice.obj.original[0]}</h1>
+				<p>{choice.obj.original[1]}<!--, powiat {choice.obj.original[1]}--></p>
+			</li>
+		{/each}
+	</ul>
+</div>
 
 <style>
+	div.wrapper {
+		border-radius: 0.5rem;
+		background-color: #fff;
+	}
 	label {
 		display: flex;
 		justify-content: stretch;
 		align-items: center;
-		background-color: #fff;
+		/* background-color: #fff; */
 		height: 3rem;
-		border-top: 1px solid #ccc;
+		/* border-top: 1px solid #ccc;
+		border-bottom: 1px solid #ccc; */
+	}
+	.active label {
 		border-bottom: 1px solid #ccc;
 	}
 	span {
@@ -80,7 +89,7 @@
 		place-items: center;
 		place-content: center;
 	}
-	div {
+	div.img {
 		display: flex;
 		flex: 0 0 3rem;
 		place-items: center;
@@ -104,16 +113,16 @@
 		display: none;
 		list-style: none;
 		margin: 0;
-		padding: 0 2rem;
-		background-color: #fff;
+		padding: 0 0.5rem;
+		/* background-color: #fff; */
 	}
-	ul.active {
+	.active ul {
 		display: block;
 	}
 	li {
-		display: flex;
+		/* display: flex;
 		justify-content: space-between;
-		align-items: baseline;
+		align-items: baseline; */
 		margin: 0;
 		padding: 0.5rem;
 		border-top: 1px solid #ccc;
@@ -132,5 +141,8 @@
 		margin: 0;
 		font-size: 0.8rem;
 		color: #444;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 	}
 </style>

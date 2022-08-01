@@ -3045,3 +3045,12 @@ export const cityDataList: [string, string, string][] = [
 	['Suchań', 'stargardzki', 'zachodniopomorskie'],
 	['Nowe Warpno', 'policki', 'zachodniopomorskie'],
 ];
+
+export const miastoWojewództwo: [string, string][] = cityDataList.map(([m, p, w]) => [m, w]);
+
+export const szkoły: [string, string][] = [
+	['ALOPB', 'Akademickie Liceum Ogólnokształcące Politechniki Białostockiej'],
+	['I LO', 'I Liceum Ogólnokształcące im. Adama Mickiewicza'],
+	['II LO', 'II Liceum Ogólnokształcące im. księżnej Anny z Sapiehów Jabłonowskiej'],
+	['III LO', 'III Liceum Ogólnokształcące im. Krzysztofa Kamila Baczyńskiego'],
+];
