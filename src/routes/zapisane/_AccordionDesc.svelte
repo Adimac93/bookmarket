@@ -10,7 +10,7 @@
 	let internalvalue = '';
 	export let value = internalvalue;
 
-	const normalize = (str: string) => str.normalize('NFKD'); //.replace(/\p{Diacritic}/gu, '');
+	const normalize = (str: string) => str.normalize('NFKD').replace('ł', 'l'); //.replace(/\p{Diacritic}/gu, '');
 
 	let prepared: {
 		id: number;
