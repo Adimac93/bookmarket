@@ -1,6 +1,5 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import { App } from '@octokit/app';
-import { sessions_class } from '$lib/database';
 
 const app = new App({
 	appId: process.env.GITHUB_APP_ID,
@@ -25,9 +24,8 @@ export const post: RequestHandler = async ({ request, locals }) => {
 		return { status: 403, body: `Unknown category ${data.category}` };
 	}
 
-	const userId = sessions_class.get(locals.cookies.session_id);
-	if (!userId) {
-		return { status: 401, body: 'Missing cookie "session_id"' };
+	if (!locals.user) {
+		return { status: 401, body: 'Not authenticated' };
 	}
 
 	let imageURLs;
@@ -40,7 +38,7 @@ export const post: RequestHandler = async ({ request, locals }) => {
 		body: [
 			data.description,
 			imageURLs ? await githubImages(imageURLs) : '',
-			`userId: \`${userId}\``,
+			`userId: \`${locals.user.id}\``,
 		].join('\n'),
 		labels: ['feedback', data.isBug ? 'bug' : 'feature', data.category],
 	};

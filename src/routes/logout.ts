@@ -1,9 +1,11 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import { serialize } from 'cookie';
-import { sessions_class } from '$lib/database';
+import { session } from '$lib/session';
 
 export const get: RequestHandler = async ({ locals }) => {
-	sessions_class.delete(locals.cookies.session_id);
+	if (locals.user) {
+		session.logOut(locals.user.sessionID);
+	}
 
 	return {
 		status: 303,

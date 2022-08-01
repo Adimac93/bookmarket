@@ -7,11 +7,14 @@ import type { User } from '@prisma/client';
 declare global {
 	declare namespace App {
 		interface Locals {
-			cookies: Record<string, string>;
+			user?: {
+				id: string;
+				sessionID: string;
+			};
 		}
 		// interface Platform {}
 		interface Session {
-			user: User | null;
+			user?: User;
 		}
 		// interface Stuff {}
 	}

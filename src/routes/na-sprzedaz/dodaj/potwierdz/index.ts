@@ -1,4 +1,4 @@
-import { db, sessions_class } from '$lib/database';
+import { db } from '$lib/database';
 import { Condition } from '@prisma/client';
 import type { RequestHandler } from '@sveltejs/kit';
 
@@ -22,9 +22,7 @@ export const get: RequestHandler = async ({ url }) => {
 };
 
 export const post: RequestHandler = async ({ locals, url, request }) => {
-	const userId = sessions_class.get(locals.cookies.session_id);
-
-	if (!userId) {
+	if (!locals.user) {
 		return { status: 401 };
 	}
 
@@ -42,7 +40,7 @@ export const post: RequestHandler = async ({ locals, url, request }) => {
 	const result = await db.bookCopy.create({
 		data: {
 			owner: {
-				connect: { id: userId },
+				connect: { id: locals.user.id },
 			},
 			status: 'świeżo dodane',
 			book_with_condition: {
