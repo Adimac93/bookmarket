@@ -8,34 +8,48 @@ datasource db {
 }
 
 model School {
-  id       String    @id @default(uuid())
-  name     String
-  students User[]
-  profiles Profile[]
+  id           String    @id @default(uuid())
+  name         String
+  gradesNumber Int
+  students     User[]
+  profiles     Profile[]
+  books        Book[]
+  subjects     Subject[]
+}
+
+model BookGroup {
+  id         String   @id @default(uuid())
+  Profile    Profile? @relation(fields: [profileId], references: [id])
+  profileId  String?
+  isOptional Boolean
+  books      Book[]
 }
 
 model Profile {
-  id       String    @id @default(uuid())
-  name     String
-  school   School?   @relation(fields: [schoolId], references: [id])
-  schoolId String?
-  subject  Subject[]
-  User     User[]
+  id        String      @id @default(uuid())
+  name      String
+  school    School?     @relation(fields: [schoolId], references: [id])
+  schoolId  String?
+  BookGroup BookGroup[]
+  User      User[]
+  Grade     Grade?      @relation(fields: [gradeId], references: [id])
+  gradeId   Int?
 }
 
 model User {
-  id           String         @id @default(uuid())
-  name         String
-  phone_number String?        @unique
-  discordId    String?        @unique
-  googleId     String?        @unique
-  facebookId   String?        @unique
-  grade        Grade
-  school       School         @relation(fields: [schoolId], references: [id])
-  schoolId     String
-  books        BookInstance[]
-  profile      Profile        @relation(fields: [profileId], references: [id])
-  profileId    String
+  id          String         @id @default(uuid())
+  name        String
+  phoneNumber String?        @unique
+  discordId   String?        @unique
+  googleId    String?        @unique
+  facebookId  String?        @unique
+  school      School?        @relation(fields: [schoolId], references: [id])
+  schoolId    String?
+  profile     Profile?       @relation(fields: [profileId], references: [id])
+  profileId   String?
+  grade       Grade?         @relation(fields: [gradeId], references: [id])
+  gradeId     Int?
+  books       BookInstance[]
 }
 
 model Book {
@@ -44,12 +58,14 @@ model Book {
   author      String
   price       Decimal
   image       String
-  grade       Grade
   subject     Subject        @relation(fields: [subjectName], references: [name])
   subjectName String
   isAdvanced  Boolean
-  url         String
+  url         String         @unique
   instances   BookInstance[]
+  School      School[]
+  BookGroup   BookGroup[]
+  Grade       Grade[]
 }
 
 model BookInstance {
@@ -69,16 +85,17 @@ enum Condition {
   BAD
 }
 
-enum Grade {
-  FIRST
-  SECOND
-  THIRD
-  FOURTH
+model Grade {
+  id      Int       @id @unique @default(autoincrement())
+  name    String
+  User    User[]
+  Book    Book[]
+  Profile Profile[]
 }
 
 model Subject {
-  name     String    @id @unique
-  alias    String?   @unique
-  Book     Book[]
-  profiles Profile[]
+  name   String   @id @unique
+  alias  String?  @unique
+  Book   Book[]
+  School School[]
 }
