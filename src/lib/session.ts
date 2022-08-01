@@ -1,3 +1,5 @@
+import { writeFile, readFile } from 'fs/promises';
+
 interface SessionManager {
 	/** @returns sessionID */
 	logIn(userID: string, maxAge: number): string;
@@ -16,7 +18,21 @@ interface Session {
 	expires: number;
 }
 
-const hashMap: Record<string, Session> = Object.create(null);
+const loadFile = async () => {
+	try {
+		const file = await readFile('session.json', 'utf8');
+		return JSON.parse(file);
+	} catch (error) {
+		console.error(error);
+		return;
+	}
+};
+
+const hashMap: Record<string, Session> = (await loadFile()) ?? Object.create(null);
+
+export const saveFile = async () => {
+	await writeFile('session.json', JSON.stringify(hashMap, undefined, 2), 'utf8');
+};
 
 export const session: SessionManager = {
 	logIn(userID, maxAge) {
