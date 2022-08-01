@@ -1,11 +1,12 @@
 import type { Prisma } from '@prisma/client';
 import type { RequestHandler } from '@sveltejs/kit';
 import { serialize } from 'cookie';
-import { db, sessions_class } from '$lib/database';
+import { db } from '$lib/database';
 import { handleOAuthCode as discord } from '$lib/oauth/discord';
 import { handleOAuthCode as facebook } from '$lib/oauth/facebook';
 import { handleOAuthCode as google } from '$lib/oauth/google';
 import { states } from '$lib/database';
+import { session } from '$lib/session';
 
 export const get: RequestHandler = async ({ url, locals, request }) => {
 	const provider = url.searchParams.get('provider');
@@ -45,13 +46,16 @@ export const get: RequestHandler = async ({ url, locals, request }) => {
 		user = await db.user.create({ data: { name: 'Użytkownik', ...where } });
 	}
 
-	const session_id = sessions_class.create(user.id);
-	locals.cookies.session_id = session_id;
+	const sessionID = session.logIn(user.id, 60 * 60 * 24 * 1);
+	locals.user = {
+		id: user.id,
+		sessionID,
+	};
 
 	return {
 		status: 303,
 		headers: {
-			'set-cookie': serialize('session_id', session_id, {
+			'set-cookie': serialize('session_id', sessionID, {
 				path: '/',
 				httpOnly: true,
 				sameSite: 'lax',

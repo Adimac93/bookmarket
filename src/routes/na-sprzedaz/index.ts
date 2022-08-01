@@ -1,15 +1,13 @@
-import { db, sessions_class } from '$lib/database';
+import { db } from '$lib/database';
 import type { RequestHandler } from '@sveltejs/kit';
 
 export const get: RequestHandler = async ({ locals }) => {
-	const sessionId = sessions_class.get(locals.cookies.session_id);
-
-	if (!sessionId) {
+	if (!locals.user) {
 		return { status: 401 };
 	}
 
 	const user = await db.user.findUnique({
-		where: { id: sessionId },
+		where: { id: locals.user.id },
 		include: { books: { include: { book_with_condition: { include: { book: true } } } } },
 	});
 
