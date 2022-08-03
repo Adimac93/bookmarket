@@ -1,13 +1,31 @@
 <script lang="ts">
-	import AccordionDesc from './_AccordionDesc.svelte';
-	import { miastoWojewództwo, szkoły } from './_data';
+	import Select from './_Select.svelte';
+	import SelectLang from './_SelectLang.svelte';
 
-	let current = 1;
+	const profile: [string, string][] = [
+		['Przemysł przyszłości', 'Matematyka, fizyka, informatyka'],
+		['Programowanie', 'Matematyka, informatyka, język angielski'],
+		['Architektura i budownictwo', 'Matematyka, fizyka, geografia'],
+	];
+
+	const języki = ['Niemiecki', 'Rosyjski'];
+
+	let iter = 0;
+	let choices = profile.filter((_, i) => i !== iter);
+	let profil: number;
+	let język: number;
 </script>
 
+<button
+	on:click={() => (
+		(iter = (((iter + 1) % 4) + 4) % 4),
+		(choices = profile.filter((_, i) => i !== iter)),
+		console.log('p', choices)
+	)}>reset</button
+>
 <div>
-	<AccordionDesc id={1} bind:current label="Miasto" choices={miastoWojewództwo} />
-	<AccordionDesc id={2} bind:current label="Szkoła" choices={szkoły} />
+	<Select placeholder="Profil" bind:value={profil} choices={profile} />
+	<SelectLang placeholder="Język obcy" bind:value={język} choices={języki} />
 </div>
 
 <style>
