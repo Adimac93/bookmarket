@@ -3054,3 +3054,70 @@ export const szkoły: [string, string][] = [
 	['II LO', 'II Liceum Ogólnokształcące im. księżnej Anny z Sapiehów Jabłonowskiej'],
 	['III LO', 'III Liceum Ogólnokształcące im. Krzysztofa Kamila Baczyńskiego'],
 ];
+
+export interface Książki {
+	wymagane: string[];
+	opcjonalne: string[];
+}
+
+export interface KsiążkiSzkoły {
+	książki: Książki;
+	profile: {
+		nazwa: string;
+		opis: string;
+		książki: Książki;
+	}[];
+	języki: {
+		nazwa: string;
+		książki: Książki;
+	}[];
+}
+
+export const data: KsiążkiSzkoły = {
+	książki: {
+		wymagane: [],
+		opcjonalne: [],
+	},
+	profile: [
+		{
+			nazwa: 'Przemysł przyszłości',
+			opis: 'Matematyka, fizyka, informatyka',
+			książki: {
+				wymagane: [],
+				opcjonalne: [],
+			},
+		},
+		{
+			nazwa: 'Programowanie',
+			opis: 'Matematyka, informatyka, język angielski',
+			książki: {
+				wymagane: [],
+				opcjonalne: [],
+			},
+		},
+		{
+			nazwa: 'Architektura i budownictwo',
+			opis: 'Matematyka, fizyka, geografia',
+			książki: {
+				wymagane: [],
+				opcjonalne: [],
+			},
+		},
+	],
+	języki: [
+		{
+			nazwa: 'Niemiecki',
+			książki: {
+				wymagane: [],
+				opcjonalne: [],
+			},
+		},
+		{
+			nazwa: 'Rosyjski',
+			książki: {
+				wymagane: [],
+				opcjonalne: [],
+			},
+		},
+	],
+};
