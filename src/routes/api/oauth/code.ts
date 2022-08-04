@@ -46,7 +46,8 @@ export const get: RequestHandler = async ({ url, locals, request }) => {
 		user = await db.user.create({ data: { name: 'Użytkownik', ...where } });
 	}
 
-	const sessionID = session.logIn(user.id, 60 * 60 * 24 * 1);
+	const maxAge = 60 * 60 * 24 * 1;
+	const sessionID = session.logIn(user.id, maxAge);
 	locals.user = {
 		id: user.id,
 		sessionID,
@@ -60,7 +61,7 @@ export const get: RequestHandler = async ({ url, locals, request }) => {
 				httpOnly: true,
 				sameSite: 'lax',
 				secure: true,
-				maxAge: 60 * 60 * 24 * 1,
+				maxAge,
 			}),
 			location,
 		},
