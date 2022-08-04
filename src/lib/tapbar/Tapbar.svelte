@@ -24,7 +24,7 @@
 		/>
 		<TapbarIcon
 			name="Na sprzedaż"
-			href="/na-sprzedaz"
+			href="/sprzedaj"
 			src="/tapbar/repo-push.svg"
 			alt="ikona książek wystawionych na sprzedaż"
 		/>
