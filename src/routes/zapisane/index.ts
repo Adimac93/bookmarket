@@ -19,10 +19,11 @@ export const post: RequestHandler = async ({ request, locals }) => {
 			id: locals.user.id,
 		},
 		data: {
-			cart: {
+			books: {
 				createMany: {
-					data: books.map((book) => ({
-						book_id: book,
+					data: books.map((id) => ({
+						bookId: id,
+						status: 'idk',
 						condition: 'NEW',
 					})),
 				},
