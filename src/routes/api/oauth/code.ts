@@ -25,16 +25,16 @@ export const get: RequestHandler = async ({ url, locals, request }) => {
 	const where: Prisma.UserWhereUniqueInput = {};
 
 	if (provider === 'discord') {
-		where.discord_id = await discord(code);
+		where.discordId = await discord(code);
 	} else if (provider === 'google') {
-		where.google_id = await google(code);
+		where.googleId = await google(code);
 	} else if (provider === 'facebook') {
-		where.facebook_id = await facebook(code);
+		where.facebookId = await facebook(code);
 	} else {
 		return { status: 403, body: 'Invalid provider' };
 	}
 
-	if (!where.discord_id && !where.google_id && !where.facebook_id) {
+	if (!where.discordId && !where.googleId && !where.facebookId) {
 		return { status: 403, body: 'Authentication error' };
 	}
 
@@ -43,7 +43,7 @@ export const get: RequestHandler = async ({ url, locals, request }) => {
 
 	if (!user) {
 		location = '/signup';
-		user = await db.user.create({ data: { name: 'Użytkownik', ...where } });
+		user = await db.user.create({ data: { ...where } });
 	}
 
 	const maxAge = 60 * 60 * 24 * 1;
