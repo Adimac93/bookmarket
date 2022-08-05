@@ -23,15 +23,15 @@ export const post: RequestHandler = async ({ request, url }) => {
 async function registerNewUser(name: string, id: string, provider: Provider) {
 	if (provider == Provider.Discord) {
 		return await db.user.create({
-			data: { name, discord_id: id },
+			data: { name, discordId: id },
 		});
 	} else if (provider == Provider.Google) {
 		return await db.user.create({
-			data: { name, google_id: id },
+			data: { name, googleId: id },
 		});
 	} else if (provider == Provider.Facebook) {
 		return await db.user.create({
-			data: { name, facebook_id: id },
+			data: { name, facebookId: id },
 		});
 	}
 }

@@ -37,30 +37,12 @@ export const post: RequestHandler = async ({ locals, url, request }) => {
 		return { status: 403 };
 	}
 
-	const result = await db.bookCopy.create({
+	const result = await db.bookInstance.create({
 		data: {
-			owner: {
-				connect: { id: locals.user.id },
-			},
 			status: 'świeżo dodane',
-			book_with_condition: {
-				connectOrCreate: {
-					where: {
-						book_id_condition: {
-							book_id: isbn,
-							condition: condition as Condition,
-						},
-					},
-					create: {
-						book: {
-							connect: {
-								id: isbn,
-							},
-						},
-						condition: condition as Condition,
-					},
-				},
-			},
+			condition: condition as Condition,
+			owner: { connect: { id: locals.user.id } },
+			book: { connect: { id: isbn } },
 		},
 	});
 
