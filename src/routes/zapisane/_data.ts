@@ -1,3 +1,5 @@
+import { db } from '$lib/database';
+
 export const regions: Region[] = [
 	'dolnośląskie',
 	'kujawsko-pomorskie',
@@ -3073,34 +3075,43 @@ export interface KsiążkiSzkoły {
 	}[];
 }
 
+let i = 0;
+const books = await db.book.findMany();
+
+function randomBooks() {
+	const j = i;
+	i += 2 + Math.floor(Math.random() * 3);
+	return books.slice(j, i).map((book) => book.id);
+}
+
 export const data: KsiążkiSzkoły = {
 	książki: {
-		wymagane: [],
-		opcjonalne: [],
+		wymagane: randomBooks(),
+		opcjonalne: randomBooks(),
 	},
 	profile: [
 		{
 			nazwa: 'Przemysł przyszłości',
 			opis: 'Matematyka, fizyka, informatyka',
 			książki: {
-				wymagane: [],
-				opcjonalne: [],
+				wymagane: randomBooks(),
+				opcjonalne: randomBooks(),
 			},
 		},
 		{
 			nazwa: 'Programowanie',
 			opis: 'Matematyka, informatyka, język angielski',
 			książki: {
-				wymagane: [],
-				opcjonalne: [],
+				wymagane: randomBooks(),
+				opcjonalne: randomBooks(),
 			},
 		},
 		{
 			nazwa: 'Architektura i budownictwo',
 			opis: 'Matematyka, fizyka, geografia',
 			książki: {
-				wymagane: [],
-				opcjonalne: [],
+				wymagane: randomBooks(),
+				opcjonalne: randomBooks(),
 			},
 		},
 	],
@@ -3108,15 +3119,15 @@ export const data: KsiążkiSzkoły = {
 		{
 			nazwa: 'Niemiecki',
 			książki: {
-				wymagane: [],
-				opcjonalne: [],
+				wymagane: randomBooks(),
+				opcjonalne: randomBooks(),
 			},
 		},
 		{
 			nazwa: 'Rosyjski',
 			książki: {
-				wymagane: [],
-				opcjonalne: [],
+				wymagane: randomBooks(),
+				opcjonalne: randomBooks(),
 			},
 		},
 	],
