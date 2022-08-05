@@ -1,8 +1,7 @@
 <script lang="ts">
 	let name = '';
 	async function sendForm() {
-		const query = new URLSearchParams(window.location.search);
-		await fetch(`/signup?id=${query.get('id') || ''}`, {
+		await fetch('/signup', {
 			method: 'post',
 			body: JSON.stringify({ name }),
 		});

@@ -8,7 +8,7 @@
 {#if $session.user}
 	<div class:clicked>
 		<button on:click={() => (clicked = !clicked)}>
-			{$session.user.name}
+			{$session.user.name ?? 'Konto'}
 			<img class="chevron" src="/chevron/down.svg" alt="strzałka w dół" />
 		</button>
 		<ul class="dropdown">
