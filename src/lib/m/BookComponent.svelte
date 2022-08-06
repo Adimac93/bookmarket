@@ -40,10 +40,10 @@
 			/>
 		</div>
 		<div class="info">
-			<span>{book.id}</span>
+			<span>{book.isbn}</span>
 			<span>{gradeMap[book.grade]}</span>
 			<span>{subjectMap[book.subject]}</span>
-			<a href="/sprzedaj/dodaj/potwierdz?isbn={book.id}" class="confirm">
+			<a href="/sprzedaj/dodaj/potwierdz?isbn={book.isbn}" class="confirm">
 				<span>Wybierz</span>
 				<img src="/chevron/right.svg" alt="strzałka w prawo" />
 			</a>

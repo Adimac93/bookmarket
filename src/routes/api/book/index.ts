@@ -8,7 +8,7 @@ export const get: RequestHandler = async ({ url }) => {
 
 	const result = await db.book.findMany({
 		where: {
-			id: {
+			isbn: {
 				in: isbnList,
 			},
 		},

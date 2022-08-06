@@ -22,7 +22,7 @@ export const get: RequestHandler = async ({ url, locals, request }) => {
 		return { status: 403, body: 'Invalid state param' };
 	}
 
-	const where: Prisma.UserWhereUniqueInput = {};
+	const where: Omit<Prisma.UserWhereUniqueInput, 'id'> = {};
 
 	if (provider === 'discord') {
 		where.discordId = await discord(code);
@@ -43,7 +43,12 @@ export const get: RequestHandler = async ({ url, locals, request }) => {
 
 	if (!user) {
 		location = '/signup';
-		user = await db.user.create({ data: { ...where } });
+		user = await db.user.create({
+			data: {
+				...where,
+				base: { create: {} },
+			},
+		});
 	}
 
 	const maxAge = 60 * 60 * 24 * 1;

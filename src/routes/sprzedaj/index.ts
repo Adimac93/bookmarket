@@ -8,7 +8,7 @@ export const get: RequestHandler = async ({ locals }) => {
 
 	const user = await db.user.findUnique({
 		where: { id: locals.user.id },
-		include: { books: { include: { book: true } } },
+		include: { base: { include: { books: { include: { book: true } } } } },
 	});
 
 	if (!user) {
@@ -17,6 +17,6 @@ export const get: RequestHandler = async ({ locals }) => {
 
 	return {
 		status: 200,
-		body: { books: user.books },
+		body: { books: user.base.books },
 	};
 };

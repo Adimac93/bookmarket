@@ -6,7 +6,7 @@
 	export let condition: Condition;
 	export let displayCover: (id: string) => () => void;
 
-	$: inCart = cart.has(book.id);
+	$: inCart = cart.has(book.isbn);
 
 	const priceMapping: { [K in Condition]: number } = {
 		NEW: 32,
@@ -52,7 +52,7 @@
 		<h1>{book.title}</h1>
 		<p>{book.author}</p>
 		<div class="tags">
-			{#each [book.grade, book.subject, book.id] as tag}
+			{#each [book.grade, book.subject, book.isbn] as tag}
 				<span class="tag">{tag.toLowerCase()}</span>
 			{/each}
 		</div>
@@ -71,7 +71,7 @@
 					on:click={nextCondition}>{condition}</button
 				>
 			</div>
-			<button class="cart" on:click={() => addBook(book.id)}
+			<button class="cart" on:click={() => addBook(book.isbn)}
 				><img src="/shopping-bag.svg" alt="shopping-bag" /></button
 			>
 		</div>

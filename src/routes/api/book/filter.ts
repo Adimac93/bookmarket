@@ -12,7 +12,7 @@ export const get: RequestHandler = async ({ url }) => {
 	const books = await db.book.findMany({
 		where: {
 			AND: [
-				{ id: isbn ?? undefined },
+				{ isbn: isbn ?? undefined },
 				{ title: title ? { contains: title, mode: 'insensitive' } : undefined },
 				{ author: authors ? { contains: authors, mode: 'insensitive' } : undefined },
 				{ grade: (grade ?? '') in Grade ? (grade as Grade) : undefined },
