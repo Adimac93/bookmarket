@@ -7,37 +7,90 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Base {
+  id      String     @id @default(uuid())
+  books   UserBook[]
+  selling Order[]    @relation(name: "sell")
+  buying  Order[]    @relation(name: "buy")
+  user    User?
+  school  School?
+  created DateTime   @default(now())
+  updated DateTime   @updatedAt
+}
+
 model User {
-  id          String         @id @default(uuid())
+  base        Base    @relation(fields: [id], references: [id])
+  id          String  @id
   name        String?
-  phoneNumber String?        @unique
-  discordId   String?        @unique
-  googleId    String?        @unique
-  facebookId  String?        @unique
-  books       BookInstance[]
+  phoneNumber String? @unique
+  discordId   String? @unique
+  googleId    String? @unique
+  facebookId  String? @unique
+}
+
+model School {
+  base   Base   @relation(fields: [id], references: [id])
+  id     String @id
+  name   String
+  abbr   String
+  city   String
+  region String
+  schema Json
+}
+
+model Order {
+  id       String      @id @default(uuid())
+  status   OrderStatus
+  seller   Base        @relation(name: "sell", fields: [sellerId], references: [id])
+  sellerId String
+  buyer    Base        @relation(name: "buy", fields: [buyerId], references: [id])
+  buyerId  String
+  books    OrderBook[]
+  created  DateTime    @default(now())
+  updated  DateTime    @updatedAt
 }
 
 model Book {
-  id         String         @id
-  title      String
-  author     String
-  price      Int
-  image      String
-  grade      Grade
-  subject    Subject
-  isAdvanced Boolean
-  url        String
-  instances  BookInstance[]
+  isbn           String      @id
+  title          String
+  author         String
+  price          Int
+  image          String
+  grade          Grade
+  subject        Subject
+  isAdvanced     Boolean
+  url            String
+  userInstances  UserBook[]
+  orderInstances OrderBook[]
+  created        DateTime    @default(now())
+  updated        DateTime    @updatedAt
 }
 
-model BookInstance {
-  id        String    @id @default(uuid())
-  status    String
+model UserBook {
   condition Condition
-  book      Book      @relation(fields: [bookId], references: [id])
-  bookId    String
-  owner     User      @relation(fields: [ownerId], references: [id])
+  count     Int
+  book      Book      @relation(fields: [isbn], references: [isbn])
+  isbn      String
+  owner     Base      @relation(fields: [ownerId], references: [id])
   ownerId   String
+
+  @@unique([condition, isbn, ownerId])
+}
+
+model OrderBook {
+  condition Condition
+  count     Int
+  book      Book      @relation(fields: [isbn], references: [isbn])
+  isbn      String
+  order     Order     @relation(fields: [orderId], references: [id])
+  orderId   String
+
+  @@unique([condition, isbn, orderId])
+}
+
+enum OrderStatus {
+  PENDING
+  DELIVERED
 }
 
 enum Condition {

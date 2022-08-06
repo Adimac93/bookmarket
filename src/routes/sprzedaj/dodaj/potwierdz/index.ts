@@ -9,7 +9,7 @@ export const get: RequestHandler = async ({ url }) => {
 		return { status: 400 };
 	}
 
-	const book = await db.book.findUnique({ where: { id: isbn } });
+	const book = await db.book.findUnique({ where: { isbn } });
 
 	if (!book) {
 		return { status: 400 };
@@ -37,12 +37,32 @@ export const post: RequestHandler = async ({ locals, url, request }) => {
 		return { status: 403 };
 	}
 
-	const result = await db.bookInstance.create({
-		data: {
-			status: 'świeżo dodane',
+	await db.userBook.upsert({
+		where: {
+			condition_isbn_ownerId: {
+				condition: condition as Condition,
+				ownerId: locals.user.id,
+				isbn,
+			},
+		},
+		create: {
 			condition: condition as Condition,
-			owner: { connect: { id: locals.user.id } },
-			book: { connect: { id: isbn } },
+			count: 1,
+			owner: {
+				connect: {
+					id: locals.user.id,
+				},
+			},
+			book: {
+				connect: {
+					isbn,
+				},
+			},
+		},
+		update: {
+			count: {
+				increment: 1,
+			},
 		},
 	});
 

@@ -3081,7 +3081,7 @@ const books = await db.book.findMany();
 function randomBooks() {
 	const j = i;
 	i += 2 + Math.floor(Math.random() * 3);
-	return books.slice(j, i).map((book) => book.id);
+	return books.slice(j, i).map((book) => book.isbn);
 }
 
 export const data: KsiążkiSzkoły = {

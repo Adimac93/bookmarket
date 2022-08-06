@@ -7,7 +7,7 @@
 
 	const submit = async () => {
 		const searchParams = new URLSearchParams();
-		searchParams.append('isbn', book.id);
+		searchParams.append('isbn', book.isbn);
 		searchParams.append('condition', condition);
 		await fetch(`/sprzedaj/dodaj/potwierdz/__data.json?${searchParams}`, {
 			method: 'post',
@@ -33,7 +33,7 @@
 		/>
 	</div>
 	<h2>{book.title}</h2>
-	<span>{book.id}</span>
+	<span>{book.isbn}</span>
 	<span>{book.grade}</span>
 	<span>{book.subject}</span>
 	<div class="right">

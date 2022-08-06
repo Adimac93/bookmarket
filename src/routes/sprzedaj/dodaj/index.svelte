@@ -12,7 +12,7 @@
 	let books: Book[] = [];
 	$: booksFiltered = books.filter(
 		(book) =>
-			book.id.includes(isbn) &&
+			book.isbn.includes(isbn) &&
 			book.title.toLowerCase().includes(title.toLowerCase()) &&
 			(!grade || book.grade === grade) &&
 			(!subject || book.subject === subject),
