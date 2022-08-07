@@ -45,7 +45,7 @@
 		on:click={() =>
 			fetch('/zapisane/__data.json', {
 				method: 'post',
-				body: JSON.stringify({ books: books }),
+				body: JSON.stringify({ books: isbnList }),
 			})}>Stwórz zamówienie</button
 	>
 </div>
