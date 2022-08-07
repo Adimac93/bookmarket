@@ -13,7 +13,7 @@
 	{#each orders as order}
 		<li>
 			<details>
-				<summary>{order.created.toLocaleDateString('pl')}</summary>
+				<summary>{new Date(order.created).toLocaleDateString('pl')}</summary>
 				<ul>
 					{#each order.books as { book }}
 						<BookComponent {book} />
