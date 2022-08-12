@@ -1,5 +1,5 @@
 import { db } from '$lib/database';
-import type { Book, Order, OrderBook } from '@prisma/client';
+import type { Base, Book, Order, OrderBook, School, User } from '@prisma/client';
 import type { RequestHandler } from './__types';
 
 export const get: RequestHandler<{
@@ -7,6 +7,10 @@ export const get: RequestHandler<{
 		books: (OrderBook & {
 			book: Book;
 		})[];
+		seller: Base & {
+			user: User | null;
+			school: School | null;
+		};
 	})[];
 }> = async ({ locals }) => {
 	if (!locals.user) return { status: 401 };
@@ -19,6 +23,12 @@ export const get: RequestHandler<{
 			books: {
 				include: {
 					book: true,
+				},
+			},
+			seller: {
+				include: {
+					user: true,
+					school: true,
 				},
 			},
 		},
