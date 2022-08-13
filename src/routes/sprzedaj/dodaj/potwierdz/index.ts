@@ -37,18 +37,18 @@ export const post: RequestHandler = async ({ locals, url, request }) => {
 		return { status: 403 };
 	}
 
-	await db.userBook.upsert({
+	await db.bookForSale.upsert({
 		where: {
-			condition_isbn_ownerId: {
+			condition_isbn_sellerId: {
 				condition: condition as Condition,
-				ownerId: locals.user.id,
+				sellerId: locals.user.id,
 				isbn,
 			},
 		},
 		create: {
 			condition: condition as Condition,
 			count: 1,
-			owner: {
+			seller: {
 				connect: {
 					id: locals.user.id,
 				},
