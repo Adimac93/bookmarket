@@ -1,3 +1,4 @@
+import { BOOKS_API_KEY } from '$env/static/private';
 import type { RequestHandler } from '@sveltejs/kit';
 
 export const POST: RequestHandler = async ({ url, request }) => {
@@ -7,7 +8,7 @@ export const POST: RequestHandler = async ({ url, request }) => {
 	}
 	const book = await (
 		await fetch(
-			`https://www.googleapis.com/books/v1/volumes?q=isbn:${data.isbn}&country=pl&key=${process.env.BOOKS_API_KEY}`,
+			`https://www.googleapis.com/books/v1/volumes?q=isbn:${data.isbn}&country=pl&key=${BOOKS_API_KEY}`,
 		)
 	).json();
 

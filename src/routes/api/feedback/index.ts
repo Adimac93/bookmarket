@@ -1,13 +1,22 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import { App } from '@octokit/app';
+import {
+	GITHUB_APP_ID,
+	GITHUB_APP_PRIVATE_KEY,
+	GITHUB_CLIENT_ID,
+	GITHUB_CLIENT_SECRET,
+	GITHUB_INSTALLATION_ID,
+	IMGUR_CLIENT_ID,
+	NODE_ENV,
+} from '$env/static/private';
 
 const app = new App({
-	appId: process.env.GITHUB_APP_ID,
-	privateKey: process.env.GITHUB_APP_PRIVATE_KEY,
-	clientSecret: process.env.GITHUB_CLIENT_SECRET,
-	clientId: process.env.GITHUB_CLIENT_ID,
+	appId: GITHUB_APP_ID,
+	privateKey: GITHUB_APP_PRIVATE_KEY,
+	clientSecret: GITHUB_CLIENT_SECRET,
+	clientId: GITHUB_CLIENT_ID,
 });
-const installationId = parseInt(process.env.GITHUB_INSTALLATION_ID);
+const installationId = parseInt(GITHUB_INSTALLATION_ID);
 
 export const POST: RequestHandler = async ({ request, locals }) => {
 	const data = (await request.json()) as Feedback;
@@ -43,7 +52,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 		labels: ['feedback', data.isBug ? 'bug' : 'feature', data.category],
 	};
 
-	if (process.env.NODE_ENV === 'development') {
+	if (NODE_ENV === 'development') {
 		console.log('Feedback sent', issue);
 	} else {
 		const octokit = await app.getInstallationOctokit(installationId);
@@ -67,7 +76,7 @@ async function uploadImages(images: string[]): Promise<string[]> {
 
 			const res = await fetch('https://api.imgur.com/3/image', {
 				method: 'post',
-				headers: { Authorization: `Client-ID ${process.env.IMGUR_CLIENT_ID}` },
+				headers: { Authorization: `Client-ID ${IMGUR_CLIENT_ID}` },
 				body: formData,
 			});
 

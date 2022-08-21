@@ -1,9 +1,8 @@
-const client_id = process.env.GOOGLE_CLIENT_ID;
-const client_secret = process.env.GOOGLE_CLIENT_SECRET;
+import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } from '$env/static/private';
 
 export const getOAuthURL = (state: string) => {
 	const url = new URL('https://accounts.google.com/o/oauth2/v2/auth');
-	url.searchParams.append('client_id', client_id);
+	url.searchParams.append('client_id', GOOGLE_CLIENT_ID);
 	url.searchParams.append('redirect_uri', 'https://localhost:3000/api/oauth/code?provider=google');
 	url.searchParams.append('response_type', 'code');
 	url.searchParams.append('scope', 'openid email');
@@ -18,8 +17,8 @@ export const handleOAuthCode = async (code: string): Promise<string | undefined>
 		'redirect_uri',
 		encodeURI('https://localhost:3000/api/oauth/code?provider=google'),
 	);
-	tokenURL.searchParams.append('client_id', client_id);
-	tokenURL.searchParams.append('client_secret', client_secret);
+	tokenURL.searchParams.append('client_id', GOOGLE_CLIENT_ID);
+	tokenURL.searchParams.append('client_secret', GOOGLE_CLIENT_SECRET);
 	tokenURL.searchParams.append('grant_type', 'authorization_code');
 
 	const token_response = await fetch(tokenURL, { method: 'post' }).then((r) => r.json());
