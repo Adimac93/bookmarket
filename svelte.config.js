@@ -9,8 +9,7 @@ const config = {
 
 	kit: {
 		adapter: adapter(),
-		floc: process.env.NODE_ENV === "development",
-	}
+	},
 };
 
 export default config;
