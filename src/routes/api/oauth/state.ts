@@ -4,7 +4,7 @@ import { getOAuthURL as facebook } from '$lib/oauth/facebook';
 import { getOAuthURL as google } from '$lib/oauth/google';
 import { states } from '$lib/database';
 
-export const get: RequestHandler = async ({ url }) => {
+export const GET: RequestHandler = async ({ url }) => {
 	const provider = url.searchParams.get('provider');
 	const redirectURI = url.searchParams.get('redirect_uri');
 

@@ -1,7 +1,7 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import { db } from '$lib/database';
 
-export const post: RequestHandler = async ({ request, url, locals }) => {
+export const POST: RequestHandler = async ({ request, url, locals }) => {
 	const form = await request.json();
 	if (!form) return { status: 401 };
 

@@ -8,7 +8,7 @@ import { handleOAuthCode as google } from '$lib/oauth/google';
 import { states } from '$lib/database';
 import { session } from '$lib/session';
 
-export const get: RequestHandler = async ({ url, locals, request }) => {
+export const GET: RequestHandler = async ({ url, locals, request }) => {
 	const provider = url.searchParams.get('provider');
 	const code = url.searchParams.get('code');
 	const state = url.searchParams.get('state');

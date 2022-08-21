@@ -1,6 +1,6 @@
 import type { RequestHandler } from '@sveltejs/kit';
 
-export const post: RequestHandler = async ({ url, request }) => {
+export const POST: RequestHandler = async ({ url, request }) => {
 	const data = await request.json();
 	if (!data) {
 		return { status: 400, body: 'Missing data' };

@@ -2,7 +2,7 @@ import type { RequestHandler } from '@sveltejs/kit';
 import { Grade, Subject } from '@prisma/client';
 import { db } from '$lib/database';
 
-export const get: RequestHandler = async ({ url }) => {
+export const GET: RequestHandler = async ({ url }) => {
 	const isbn = url.searchParams.get('isbn');
 	const title = url.searchParams.get('title');
 	const authors = url.searchParams.get('authors');

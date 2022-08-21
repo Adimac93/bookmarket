@@ -9,7 +9,7 @@ const app = new App({
 });
 const installationId = parseInt(process.env.GITHUB_INSTALLATION_ID);
 
-export const post: RequestHandler = async ({ request, locals }) => {
+export const POST: RequestHandler = async ({ request, locals }) => {
 	const data = (await request.json()) as Feedback;
 
 	if (!data.title || !data.description || !data.category || typeof data.isBug !== 'boolean') {

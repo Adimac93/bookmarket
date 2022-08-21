@@ -2,7 +2,7 @@ import type { RequestHandler } from '@sveltejs/kit';
 import { serialize } from 'cookie';
 import { session } from '$lib/session';
 
-export const get: RequestHandler = async ({ locals }) => {
+export const GET: RequestHandler = async ({ locals }) => {
 	if (locals.user) {
 		session.logOut(locals.user.sessionID);
 	}

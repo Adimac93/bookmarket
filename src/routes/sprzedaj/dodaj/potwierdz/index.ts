@@ -2,7 +2,7 @@ import { db } from '$lib/database';
 import { Condition } from '@prisma/client';
 import type { RequestHandler } from '@sveltejs/kit';
 
-export const get: RequestHandler = async ({ url }) => {
+export const GET: RequestHandler = async ({ url }) => {
 	const isbn = url.searchParams.get('isbn');
 
 	if (!isbn) {
@@ -21,7 +21,7 @@ export const get: RequestHandler = async ({ url }) => {
 	};
 };
 
-export const post: RequestHandler = async ({ locals, url, request }) => {
+export const POST: RequestHandler = async ({ locals, url, request }) => {
 	if (!locals.user) {
 		return { status: 401 };
 	}

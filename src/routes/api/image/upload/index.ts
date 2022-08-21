@@ -1,6 +1,6 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import { writeFile } from 'node:fs/promises';
-export const post: RequestHandler = async ({ request }) => {
+export const POST: RequestHandler = async ({ request }) => {
 	const data = await request.json();
 	if (!data.images) return { status: 400 };
 	const files = data.images as Array<string>;

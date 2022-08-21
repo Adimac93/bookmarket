@@ -2,7 +2,7 @@ import { db } from '$lib/database';
 import type { Book, Order, OrderBook } from '@prisma/client';
 import type { RequestHandler } from './__types';
 
-export const get: RequestHandler<{
+export const GET: RequestHandler<{
 	orders: (Order & {
 		books: (OrderBook & {
 			book: Book;

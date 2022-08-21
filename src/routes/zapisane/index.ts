@@ -5,14 +5,14 @@ import { data } from './_data';
 
 const school = await db.school.findFirstOrThrow();
 
-export const get: RequestHandler = (async () => {
+export const GET: RequestHandler = (async () => {
 	return {
 		status: 200,
 		body: { data },
 	};
 }) as RequestHandler;
 
-export const post: RequestHandler = async ({ request, locals }) => {
+export const POST: RequestHandler = async ({ request, locals }) => {
 	if (!locals.user) return { status: 401 };
 
 	const books = (await request.json()).books as string[];
