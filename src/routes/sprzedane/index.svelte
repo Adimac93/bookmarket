@@ -1,13 +1,13 @@
 <script lang="ts">
 	import BookComponent from '$lib/m/BookComponent.svelte';
 	import type { Base, Book, Order, OrderBook, School, User } from '@prisma/client';
-	import OrderComponent from './_Order.svelte';
+	import OrderComponent from '../zamowione/_Order.svelte';
 
 	export let orders: (Order & {
 		books: (OrderBook & {
 			book: Book;
 		})[];
-		seller: Base & {
+		buyer: Base & {
 			user: User | null;
 			school: School | null;
 		};
@@ -15,18 +15,13 @@
 </script>
 
 <ol>
-	{#each orders as order}
+	{#each orders as order2}
+		{@const order = { ...order2, seller: order2.buyer }}
 		<li>
-			<!-- <details>
-				<summary>{new Date(order.created).toLocaleDateString('pl')}</summary>
-				<ul>
-					{#each order.books as { book }}
-						<BookComponent {book} />
-					{/each}
-				</ul>
-			</details> -->
 			<OrderComponent {order} />
 		</li>
+	{:else}
+		<h1>Nie sprzedałeś jeszcze żadnych książek.</h1>
 	{/each}
 </ol>
 

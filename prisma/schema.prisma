@@ -8,14 +8,15 @@ datasource db {
 }
 
 model Base {
-  id      String     @id @default(uuid())
-  books   UserBook[]
-  selling Order[]    @relation(name: "sell")
-  buying  Order[]    @relation(name: "buy")
-  user    User?
-  school  School?
-  created DateTime   @default(now())
-  updated DateTime   @updatedAt
+  id       String           @id @default(uuid())
+  wishlist BookInWishlist[]
+  forSale  BookForSale[]
+  selling  Order[]          @relation(name: "sell")
+  buying   Order[]          @relation(name: "buy")
+  user     User?
+  school   School?
+  created  DateTime         @default(now())
+  updated  DateTime         @updatedAt
 }
 
 model User {
@@ -51,30 +52,42 @@ model Order {
 }
 
 model Book {
-  isbn           String      @id
-  title          String
-  author         String
-  price          Int
-  image          String
-  grade          Grade
-  subject        Subject
-  isAdvanced     Boolean
-  url            String
-  userInstances  UserBook[]
-  orderInstances OrderBook[]
-  created        DateTime    @default(now())
-  updated        DateTime    @updatedAt
+  isbn              String           @id
+  title             String
+  author            String
+  price             Int
+  image             String
+  grade             Grade
+  subject           Subject
+  isAdvanced        Boolean
+  url               String
+  orderInstances    OrderBook[]
+  wishlistInstances BookInWishlist[]
+  forSaleInstances  BookForSale[]
+  created           DateTime         @default(now())
+  updated           DateTime         @updatedAt
 }
 
-model UserBook {
+model BookInWishlist {
+  condition Condition?
+  count     Int
+  book      Book       @relation(fields: [isbn], references: [isbn])
+  isbn      String
+  buyer     Base       @relation(fields: [buyerId], references: [id])
+  buyerId   String
+
+  @@unique([isbn, buyerId])
+}
+
+model BookForSale {
   condition Condition
   count     Int
   book      Book      @relation(fields: [isbn], references: [isbn])
   isbn      String
-  owner     Base      @relation(fields: [ownerId], references: [id])
-  ownerId   String
+  seller    Base      @relation(fields: [sellerId], references: [id])
+  sellerId  String
 
-  @@unique([condition, isbn, ownerId])
+  @@unique([condition, isbn, sellerId])
 }
 
 model OrderBook {

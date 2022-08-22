@@ -1,22 +1,39 @@
 <script lang="ts">
-	import HamburgerMenu from '$lib/m/HamburgerMenu.svelte';
-	import HamburgerMenuItem from '$lib/m/HamburgerMenuItem.svelte';
-	import BookComponent from '$lib/m/BookComponent.svelte';
-	import type { Book, UserBook } from '@prisma/client';
+	import type { Book, BookForSale } from '@prisma/client';
+	import FloatingAnchor from '$lib/floating/FloatingAnchor.svelte';
+	import BookComponent from '$lib/book/Row.svelte';
+	import LargeCover from '$lib/book/LargeCover.svelte';
 
-	export let books: (UserBook & {
+	export let books: (BookForSale & {
 		book: Book;
 	})[] = [];
+
+	const booksExpanded = books
+		.map((book) => Array.from<Book>({ length: book.count }).fill(book.book))
+		.flat();
 </script>
 
-{#each books as userBook}
-	<BookComponent book={userBook.book} />
-{:else}
-	<h1>Nie wystawiłeś jeszcze na sprzedaż żadnych książek.</h1>
-{/each}
+<ul>
+	{#each booksExpanded as book}
+		<BookComponent {book} />
+	{:else}
+		<h1>Nie wystawiłeś jeszcze na sprzedaż żadnych książek.</h1>
+	{/each}
+</ul>
 
-<HamburgerMenu title="Sprzedaj">
-	<HamburgerMenuItem href="/sprzedaj/dodaj" text="Dodaj książkę" />
-	<HamburgerMenuItem href="/sprzedaj/sprzedane" text="Sprzedane książki" />
-	<HamburgerMenuItem href="/sprzedaj/dodaj/wybierz" text="Wybierz książkę z listy" />
-</HamburgerMenu>
+<FloatingAnchor href="/sprzedaj/dodaj">
+	<img src="/plus.svg" alt="plus" style:filter="invert(1)" />
+</FloatingAnchor>
+
+<LargeCover />
+
+<style>
+	ul {
+		display: flex;
+		flex-flow: column;
+		margin: 0;
+		padding: 0.4rem;
+		gap: 0.4rem;
+		list-style: none;
+	}
+</style>
