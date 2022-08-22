@@ -1,7 +1,7 @@
 import { db } from '$lib/database';
-import type { RequestHandler } from '@sveltejs/kit';
+import type { PageServerLoad } from '@sveltejs/kit';
 
-export const GET: RequestHandler = async ({ locals }) => {
+export const load: PageServerLoad = async ({ locals }) => {
 	if (locals.user == undefined) {
 		const info =
 			randomChoice([
@@ -9,15 +9,15 @@ export const GET: RequestHandler = async ({ locals }) => {
 				'Kto to, kto to?',
 				'Hola, hola! Chyba się nie znamy?',
 			]) + ' (zaloguj się)';
-		return { status: 200, body: { info } };
+		return { info };
 	}
 	const base = await db.base.findUnique({
 		where: { id: locals.user.id },
 		select: { books: { include: { book: {} } } },
 	});
 
-	if (!base) return { status: 200, body: 'No books' };
-	return { status: 200, body: { books: base.books } };
+	if (!base) return 'No books';
+	return { books: base.books };
 };
 
 function randomChoice<T>(choices: T[]): T {

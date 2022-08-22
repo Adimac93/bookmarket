@@ -1,8 +1,9 @@
 import { db } from '$lib/database';
-import type { RequestHandler } from '@sveltejs/kit';
+import type { PageServerLoad } from '@sveltejs/kit';
 
-export const GET: RequestHandler = async ({ locals }) => {
+export const load: PageServerLoad = async ({ locals }) => {
 	if (!locals.user) {
+		throw new Error("@migration task: Migrate this return statement (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292699)");
 		return { status: 401 };
 	}
 
@@ -12,11 +13,9 @@ export const GET: RequestHandler = async ({ locals }) => {
 	});
 
 	if (!user) {
+		throw new Error("@migration task: Migrate this return statement (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292699)");
 		return { status: 400 };
 	}
 
-	return {
-		status: 200,
-		body: { books: user.base.books },
-	};
+	return { books: user.base.books };
 };

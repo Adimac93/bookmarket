@@ -1,10 +1,7 @@
-import type { RequestHandler } from '@sveltejs/kit';
+import type { PageServerLoad } from '@sveltejs/kit';
 import { db } from '$lib/database';
 
-export const GET: RequestHandler = async () => {
+export const load: PageServerLoad = async () => {
 	const books = await db.book.findMany();
-	return {
-		status: 200,
-		body: { books },
-	};
+	return { books };
 };

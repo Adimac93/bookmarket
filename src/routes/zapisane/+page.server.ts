@@ -1,6 +1,8 @@
+throw new Error("@migration task: Update +page.server.js (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292699)");
+
 import { db } from '$lib/database';
 import type { Prisma } from '@prisma/client';
-import type { RequestHandler } from '@sveltejs/kit';
+import type { PageServerLoad, Action } from '@sveltejs/kit';
 import { data } from './_data';
 
 const school = await db.school.findFirstOrThrow();
@@ -12,8 +14,9 @@ export const GET: RequestHandler = (async () => {
 	};
 }) as RequestHandler;
 
-export const POST: RequestHandler = async ({ request, locals }) => {
-	if (!locals.user) return { status: 401 };
+export const POST: Action = async ({ request, locals }) => {
+	if (!locals.user) throw new Error("@migration task: Migrate this return statement (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292699)");
+	return { status: 401 };
 
 	const books = (await request.json()).books as string[];
 
@@ -52,6 +55,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 		},
 	});
 
+	throw new Error("@migration task: Migrate this return statement (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292699)");
 	return {
 		status: 201,
 	};

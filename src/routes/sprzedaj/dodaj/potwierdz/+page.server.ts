@@ -1,28 +1,28 @@
 import { db } from '$lib/database';
 import { Condition } from '@prisma/client';
-import type { RequestHandler } from '@sveltejs/kit';
+import type { PageServerLoad, Action } from '@sveltejs/kit';
 
-export const GET: RequestHandler = async ({ url }) => {
+export const load: PageServerLoad = async ({ url }) => {
 	const isbn = url.searchParams.get('isbn');
 
 	if (!isbn) {
+		throw new Error("@migration task: Migrate this return statement (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292699)");
 		return { status: 400 };
 	}
 
 	const book = await db.book.findUnique({ where: { isbn } });
 
 	if (!book) {
+		throw new Error("@migration task: Migrate this return statement (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292699)");
 		return { status: 400 };
 	}
 
-	return {
-		status: 200,
-		body: { book },
-	};
+	return { book };
 };
 
-export const POST: RequestHandler = async ({ locals, url, request }) => {
+export const POST: Action = async ({ locals, url, request }) => {
 	if (!locals.user) {
+		throw new Error("@migration task: Migrate this return statement (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292699)");
 		return { status: 401 };
 	}
 
@@ -30,10 +30,12 @@ export const POST: RequestHandler = async ({ locals, url, request }) => {
 	const condition = url.searchParams.get('condition');
 
 	if (!isbn || !condition) {
+		throw new Error("@migration task: Migrate this return statement (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292699)");
 		return { status: 400 };
 	}
 
 	if (!(condition in Condition)) {
+		throw new Error("@migration task: Migrate this return statement (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292699)");
 		return { status: 403 };
 	}
 
@@ -66,5 +68,6 @@ export const POST: RequestHandler = async ({ locals, url, request }) => {
 		},
 	});
 
+	throw new Error("@migration task: Migrate this return statement (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292699)");
 	return { status: 200 };
 };
