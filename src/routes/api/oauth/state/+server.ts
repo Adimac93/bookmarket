@@ -1,3 +1,4 @@
+import { error, json } from '@sveltejs/kit';
 import type { RequestHandler } from '@sveltejs/kit';
 import { getOAuthURL as discord } from '$lib/oauth/discord';
 import { getOAuthURL as facebook } from '$lib/oauth/facebook';
@@ -9,7 +10,7 @@ export const GET: RequestHandler = async ({ url }) => {
 	const redirectURI = url.searchParams.get('redirect_uri');
 
 	if (!provider || !redirectURI) {
-		return { status: 400, body: 'Missing URL search params' };
+		throw error(400, 'Missing URL search params');
 	}
 
 	const state = crypto.randomUUID();
@@ -22,15 +23,12 @@ export const GET: RequestHandler = async ({ url }) => {
 	} else if (provider === 'facebook') {
 		oauthURL = facebook(state);
 	} else {
-		return { status: 403, body: 'Invalid provider' };
+		throw error(403, 'Invalid provider');
 	}
 
 	states.create({ redirectURI }, state);
 
-	return {
-		status: 200,
-		body: {
-			redirectURI: oauthURL.toString(),
-		},
-	};
+	return json({
+		redirectURI: oauthURL.toString(),
+	});
 };

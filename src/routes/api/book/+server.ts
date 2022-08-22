@@ -1,12 +1,15 @@
+import { error, json } from '@sveltejs/kit';
 import { db } from '$lib/database';
 import type { RequestHandler } from '@sveltejs/kit';
 
 export const GET: RequestHandler = async ({ url }) => {
 	const isbnList = url.searchParams.get('isbn')?.split(',');
 
-	if (!isbnList) return { status: 400 };
+	if (!isbnList) {
+		throw error(400, 'Missing isbn list');
+	}
 
-	const result = await db.book.findMany({
+	const books = await db.book.findMany({
 		where: {
 			isbn: {
 				in: isbnList,
@@ -14,10 +17,5 @@ export const GET: RequestHandler = async ({ url }) => {
 		},
 	});
 
-	return {
-		status: 200,
-		body: {
-			books: result,
-		},
-	};
+	return json({ books });
 };

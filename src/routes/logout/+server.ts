@@ -7,11 +7,11 @@ export const GET: RequestHandler = async ({ locals }) => {
 		session.logOut(locals.user.sessionID);
 	}
 
-	return {
+	return new Response(undefined, {
 		status: 303,
 		headers: {
 			'set-cookie': serialize('session_id', '', { maxAge: 0 }),
 			location: '/login',
 		},
-	};
+	});
 };

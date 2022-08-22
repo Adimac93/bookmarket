@@ -1,5 +1,5 @@
 import type { Prisma } from '@prisma/client';
-import type { RequestHandler } from '@sveltejs/kit';
+import { error, type RequestHandler } from '@sveltejs/kit';
 import { serialize } from 'cookie';
 import { db } from '$lib/database';
 import { handleOAuthCode as discord } from '$lib/oauth/discord';
@@ -14,12 +14,12 @@ export const GET: RequestHandler = async ({ url, locals, request }) => {
 	const state = url.searchParams.get('state');
 
 	if (!provider || !code || !state) {
-		return { status: 400, body: 'Missing URL search params' };
+		throw error(400, 'Missing URL search params');
 	}
 
 	const stateData = states.get(state);
 	if (!stateData) {
-		return { status: 403, body: 'Invalid state param' };
+		throw error(403, 'Invalid state param');
 	}
 
 	const where: Omit<Prisma.UserWhereUniqueInput, 'id'> = {};
@@ -31,11 +31,11 @@ export const GET: RequestHandler = async ({ url, locals, request }) => {
 	} else if (provider === 'facebook') {
 		where.facebookId = await facebook(code);
 	} else {
-		return { status: 403, body: 'Invalid provider' };
+		throw error(403, 'Invalid provider');
 	}
 
 	if (!where.discordId && !where.googleId && !where.facebookId) {
-		return { status: 403, body: 'Authentication error' };
+		throw error(403, 'Authentication error');
 	}
 
 	let location = stateData.redirectURI;
@@ -58,7 +58,7 @@ export const GET: RequestHandler = async ({ url, locals, request }) => {
 		sessionID,
 	};
 
-	return {
+	return new Response(undefined, {
 		status: 303,
 		headers: {
 			'set-cookie': serialize('session_id', sessionID, {
@@ -70,5 +70,5 @@ export const GET: RequestHandler = async ({ url, locals, request }) => {
 			}),
 			location,
 		},
-	};
+	});
 };

@@ -1,3 +1,4 @@
+import { json } from '@sveltejs/kit';
 import type { RequestHandler } from '@sveltejs/kit';
 import { Grade, Subject } from '@prisma/client';
 import { db } from '$lib/database';
@@ -21,8 +22,5 @@ export const GET: RequestHandler = async ({ url }) => {
 		},
 	});
 
-	return {
-		status: 200,
-		body: { books },
-	};
+	return json({ books });
 };

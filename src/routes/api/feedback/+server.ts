@@ -1,4 +1,4 @@
-import type { RequestHandler } from '@sveltejs/kit';
+import { error, type RequestHandler } from '@sveltejs/kit';
 import { App } from '@octokit/app';
 import {
 	GITHUB_APP_ID,
@@ -22,19 +22,19 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 	const data = (await request.json()) as Feedback;
 
 	if (!data.title || !data.description || !data.category || typeof data.isBug !== 'boolean') {
-		return { status: 400, body: 'Missing feedback fields' };
+		throw error(400, 'Missing feedback fields');
 	}
 
 	if (data.title.length > 60 || data.description.length > 65536) {
-		return { status: 403, body: 'Exceded data limit' };
+		throw error(403, 'Exceded data limit');
 	}
 
 	if (data.category !== 'ui' && data.category !== 'account' && data.category !== 'oauth') {
-		return { status: 403, body: `Unknown category ${data.category}` };
+		throw error(403, `Unknown category ${data.category}`);
 	}
 
 	if (!locals.user) {
-		return { status: 401, body: 'Not authenticated' };
+		throw error(401, 'Not authenticated');
 	}
 
 	let imageURLs;
@@ -64,7 +64,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 		}
 	}
 
-	return { status: 200 };
+	return new Response(undefined);
 };
 
 async function uploadImages(images: string[]): Promise<string[]> {
